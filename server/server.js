@@ -21,7 +21,13 @@ mongoose.connect('mongodb+srv://Amaan:password12345@olumsx-test.bddt8lm.mongodb.
 
 
 app.get("/", (req, res) => {
+  try{
     res.json("Hello");
+    
+  }catch(err)
+  {
+    res.status(500).json({ error: "Failed to create order." });
+  }
 })
 app.post('/register', (req, res) => {
     const {name, email, password} = req.body;
