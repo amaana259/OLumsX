@@ -1,6 +1,5 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon } from '@heroicons/react/20/solid'
@@ -8,6 +7,13 @@ import { ChevronDownIcon, FunnelIcon } from '@heroicons/react/20/solid'
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
+
+const defaultImages = [
+    'https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg',
+    'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg',
+    'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg',
+    'https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg',
+];
 
 export default function ProductGrid() {
     const userID = "6617bc2ecf757dfbbdaed2f8"
@@ -158,19 +164,6 @@ export default function ProductGrid() {
 
                                     {/* Filters */}
                                     <div className="mt-4 border-t border-gray-200">
-
-                                        {/* Subcategories */}
-                                        {/* <h3 className="sr-only">Categories</h3>
-                                        <ul role="list" className="px-2 py-3 font-medium text-gray-900">
-                                            {subCategories.map((category) => (
-                                                <li key={category.name}>
-                                                    <a href={category.href} className="block px-2 py-3">
-                                                        {category.name}
-                                                    </a>
-                                                </li>
-                                            ))}
-                                        </ul> */}
-
                                         {/* Categories Filter */}
                                         <div className="border-t border-gray-200 px-4 py-6">
                                             <label className="font-semibold text-gray-900 mb-2" htmlFor="category">Category</label>
@@ -338,11 +331,15 @@ export default function ProductGrid() {
                     {/* Product grid */}
                     <div className="lg:ml-12 w-full grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
                         {filteredProducts.map((product) => (
-                            <Link to={`/product/${product._id}`}>
-                                <div key={product._id} className="group relative">
+                            <Link to={`/product/${product._id}`} key={product._id}>
+                                <div className="group relative">
                                     {/* Product Image */}
                                     <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 h-40 lg:h-80">
-                                        <img src="..\assets\gray_bg.png" alt="Product" className="h-full w-full object-cover object-center lg:h-full lg:w-full" />
+                                        <img
+                                            src={product.images && product.images.length > 0 ? product.images[0] : defaultImages[Math.floor(Math.random() * defaultImages.length)]}
+                                            alt="Product"
+                                            className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                                        />
                                     </div>
 
                                     {/* Product Details */}
