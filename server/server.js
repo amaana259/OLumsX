@@ -20,10 +20,24 @@ app.use(cors(
 ));
 app.use(express.json())
 
-mongoose.connect(process.env.MONG_URI);
+// mongoose.connect(process.env.MONG_URI);
 
-// mongoose.connect('mongodb+srv://Shayan:1234@olumsx-test.bddt8lm.mongodb.net/?retryWrites=true&w=majority&appName=OLumsX-Test');
-
+// mongoose.connect("mongodb+srv://Shayan:1234@olumsx-test.bddt8lm.mongodb.net/?retryWrites=true&w=majority&appName=OLumsX-Test");
+try {
+  mongoose
+    .connect("mongodb+srv://Shayan:1234@olumsx-test.bddt8lm.mongodb.net/?retryWrites=true&w=majority&appName=OLumsX-Test")
+    .then(() => {
+      app.listen(3001, () => {
+        console.log(`listening on port ${3001}`);
+        console.log("Connected to Database");
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  } catch (err) {
+  console.log(err);
+}
 
 app.get("/", (req, res) => {
   try{
