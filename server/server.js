@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
+// const RegisterModel = require('./models/Register')
 
 import userRoute from './routes/user.js';
 import productRoute from './routes/product.js';
@@ -16,49 +17,42 @@ import { errorMiddleware } from "./middlewares/error.js";
 
 dotenv.config();
 
-const app = express();
+const app = express()
 
 app.use(cors(
-    {
-        origin: ["https://olumsx-backend-deploy-new.vercel.app"],
-        methods: ["POST", "GET", "PATCH", "DELETE", "PUT"],
-        credentials: true
-    }
+  {
+      origin: ["https://olumsx-backend-deploy-new.vercel.app"],
+      methods: ["POST", "GET", "PATCH", "DELETE", "PUT"],
+      credentials: true
+  }
 ));
 
-app.use(express.json());
+app.use(express.json())
 
 mongoose.connect(process.env.MONG_URI)
 
+
 app.get("/", (req, res) => {
     res.json("hello there");
-});
+})
+app.post('/register', (req, res) => {
+    const {name, email, password} = req.body;
+    RegisterModel.findOne({email: email})
+    .then(user => {
+        if(user) {
+            res.json("Already have an account")
+        } else {
+            RegisterModel.create({name: name, email: email, password: password})
+            .then(result => res.json(result))
+            .catch(err => res.json(err))
+        }
+    }).catch(err => res.json(err))
+})
 
-// User api routing
-app.use("/api/user", userRoute);
 
-// Product api routing
-app.use("/api/product", productRoute);
-
-// Chat api routing
-app.use("/api/chat", chatRoute);
-
-// Cart api routing
-app.use("/api/cart", cartRoute);
-
-// Products in Cart api routing
-app.use("/api/prodcart", prodcartRoute);
-
-// Wishlist api routing
-app.use("/api/wishlist", wishlistRoute);
-
-// Orders api routing
-app.use("/api/orders", orderRoute);
-
-// Reviews api routing
-app.use("/api/review", reviewRoute);
-
-app.use(errorMiddleware);
+app.listen(3001, () => {
+    console.log("Server is Running")
+})
 
 // import express from "express";
 // import dotenv from "dotenv";
