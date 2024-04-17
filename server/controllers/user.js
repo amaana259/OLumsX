@@ -121,6 +121,8 @@ export const updateUser = TryCatch(async (req, res, next) => {
       DOB,
     } = req.body;
 
+    console.log("form is ", req.body);
+
     const user = await User.findById (userID);
     user._id = userID;
     user.username = user.username;
