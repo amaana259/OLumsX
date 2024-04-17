@@ -1,7 +1,11 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const cors = require('cors')
+// const express = require('express')
+// const mongoose = require('mongoose')
+// const cors = require('cors')
 // const RegisterModel = require('./models/Register')
+import express from "express";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import cors from "cors";
 
 const app = express()
 app.use(cors(
