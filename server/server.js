@@ -2,15 +2,6 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
-// import bcrypt from "bcrypt";
-
-import User from "./models/user.js";
-import Product from "./models/product.js";
-import Order from "./models/order.js";
-import Cart from "./models/cart.js";
-import ProductsinCart from "./models/productsInCart.js";
-import Delivery from "./models/delivery.js";
-import ProductsinOrder from "./models/productsInOrder.js";
 
 import userRoute from './routes/user.js';
 import productRoute from './routes/product.js';
@@ -27,8 +18,21 @@ dotenv.config();
 
 const app = express();
 
+app.use(cors(
+    {
+        origin: ["https://olumsx-backend-deploy-new.vercel.app"],
+        methods: ["POST", "GET", "PATCH", "DELETE", "PUT"],
+        credentials: true
+    }
+));
+
 app.use(express.json());
-app.use(cors());
+
+mongoose.connect(process.env.MONG_URI)
+
+app.get("/", (req, res) => {
+    res.json("hello there");
+});
 
 // User api routing
 app.use("/api/user", userRoute);
@@ -56,23 +60,81 @@ app.use("/api/review", reviewRoute);
 
 app.use(errorMiddleware);
 
+// import express from "express";
+// import dotenv from "dotenv";
+// import mongoose from "mongoose";
+// import cors from "cors";
+// // import bcrypt from "bcrypt";
 
-// listen for requests.
-try {
-  mongoose
-    .connect(process.env.MONG_URI)
-    .then(() => {
-      app.listen(process.env.PORT, () => {
-        console.log(`listening on port ${process.env.PORT}`);
-        console.log("Connected to Database");
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  } catch (err) {
-  console.log(err);
-}
+// import User from "./models/user.js";
+// import Product from "./models/product.js";
+// import Order from "./models/order.js";
+// import Cart from "./models/cart.js";
+// import ProductsinCart from "./models/productsInCart.js";
+// import Delivery from "./models/delivery.js";
+// import ProductsinOrder from "./models/productsInOrder.js";
+
+// import userRoute from './routes/user.js';
+// import productRoute from './routes/product.js';
+// import chatRoute from './routes/chat.js';
+// import orderRoute from './routes/order.js';
+// import cartRoute from './routes/cart.js';
+// import prodcartRoute from './routes/productsincart.js';
+// import wishlistRoute from './routes/wishlist.js'
+// import reviewRoute from './routes/reviews.js'
+// import { connectDB } from "./utils/features.js";
+// import { errorMiddleware } from "./middlewares/error.js";
+
+// dotenv.config();
+
+// const app = express();
+
+// app.use(express.json());
+// app.use(cors());
+
+// // User api routing
+// app.use("/api/user", userRoute);
+
+// // Product api routing
+// app.use("/api/product", productRoute);
+
+// // Chat api routing
+// app.use("/api/chat", chatRoute);
+
+// // Cart api routing
+// app.use("/api/cart", cartRoute);
+
+// // Products in Cart api routing
+// app.use("/api/prodcart", prodcartRoute);
+
+// // Wishlist api routing
+// app.use("/api/wishlist", wishlistRoute);
+
+// // Orders api routing
+// app.use("/api/orders", orderRoute);
+
+// // Reviews api routing
+// app.use("/api/review", reviewRoute);
+
+// app.use(errorMiddleware);
+
+
+// // listen for requests.
+// try {
+//   mongoose
+//     .connect(process.env.MONG_URI)
+//     .then(() => {
+//       app.listen(process.env.PORT, () => {
+//         console.log(`listening on port ${process.env.PORT}`);
+//         console.log("Connected to Database");
+//       });
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+//   } catch (err) {
+//   console.log(err);
+// }
 
 
 //Make your API calls for every usecase here
