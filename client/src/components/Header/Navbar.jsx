@@ -26,7 +26,7 @@ export default function Navbar({ currentPage }) {
     useEffect(() => {
         const getUserDetails = async () => {
             try {
-                const response = await fetch('http://localhost:4000/api/user/getuserbyid', {
+                const response = await fetch('https://olumsx-backend-deploy-new.vercel.app/api/user/getuserbyid', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

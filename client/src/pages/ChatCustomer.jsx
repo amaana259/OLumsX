@@ -17,7 +17,7 @@ export default function ChatCustomer() {
 
   const fetchChats = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/chat/customerchats', {
+      const response = await fetch('https://olumsx-backend-deploy-new.vercel.app/api/chat/customerchats', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

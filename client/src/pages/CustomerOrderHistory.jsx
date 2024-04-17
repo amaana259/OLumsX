@@ -17,7 +17,7 @@ const CustomerOrderHistory = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/orders/customerorders", {
+      const response = await fetch("https://olumsx-backend-deploy-new.vercel.app/api/orders/customerorders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,7 +38,7 @@ const CustomerOrderHistory = () => {
   const handleViewProductDetails = async (orderID) => {
     if (visibleOrderDetailsId !== orderID) {
       try {
-        const response = await fetch('http://localhost:4000/api/orders/fetchproddetails', {
+        const response = await fetch('https://olumsx-backend-deploy-new.vercel.app/api/orders/fetchproddetails', {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

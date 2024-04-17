@@ -18,7 +18,7 @@ export default function ChatCustomer() {
   const fetchChats = async () => {
     try {
       localStorage.setItem('customerID', "6617bc2ecf757dfbbdaed2f8");
-      const response = await fetch('http://localhost:4000/api/chat/customerchats', {
+      const response = await fetch('https://olumsx-backend-deploy-new.vercel.app/api/chat/customerchats', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

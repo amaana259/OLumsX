@@ -36,7 +36,7 @@ export default function Header() {
   const handleSearch = async () => {
     if (searchTerm.trim()) {
       try {
-        const response = await axios.get(`/api/product/search?query=${searchTerm}`);
+        const response = await axios.get(`https://olumsx-backend-deploy-new.vercel.app/api/product/search?query=${searchTerm}`);
         // navigate('/searchedprods', { state: { products: response.data } });
       } catch (error) {
         console.error('Error during product search:', error.response?.data || error.message);

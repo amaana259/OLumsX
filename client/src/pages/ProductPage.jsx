@@ -21,7 +21,7 @@ export default function ProductPage() {
     useEffect(() => {
         const getProductById = async () => {
             try {
-                const response = await axios.get(`http://localhost:4000/api/product/fetchprod/${id}`);
+                const response = await axios.get(`https://olumsx-backend-deploy-new.vercel.app/api/product/fetchprod/${id}`);
                 console.log('Product data:', response.data);
                 if (!response.data.hasOwnProperty('images')) {
                     response.data.images = [
@@ -53,7 +53,7 @@ export default function ProductPage() {
 
         const fetchReviews = async (productId) => {
             try {
-                const reviewsResponse = await axios.get(`http://localhost:4000/api/review/getreviews/${productId}`);
+                const reviewsResponse = await axios.get(`https://olumsx-backend-deploy-new.vercel.app/api/review/getreviews/${productId}`);
                 setReviewsArr(reviewsResponse.data);
             } catch (error) {
                 console.error('Error fetching reviews:', error.response?.data || error.message);

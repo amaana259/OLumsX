@@ -11,7 +11,7 @@ export default function FullDisplayChatCustomer() {
   useEffect(() => {
     const getUserDetails = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/user/getuserbyid', {
+        const response = await fetch('https://olumsx-backend-deploy-new.vercel.app/api/user/getuserbyid', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -60,7 +60,7 @@ export default function FullDisplayChatCustomer() {
         return;
       }
       fetchMessages();
-      const response = await fetch('http://localhost:4000/api/chat/createmessage', {
+      const response = await fetch('https://olumsx-backend-deploy-new.vercel.app/api/chat/createmessage', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ export default function FullDisplayChatCustomer() {
 
   const fetchMessagesFromBackend = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/chat/fetchmessages', {
+      const response = await fetch('https://olumsx-backend-deploy-new.vercel.app/api/chat/fetchmessages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
