@@ -7,6 +7,6 @@
       { "src": "/(.*)", "dest": "/" }
     ],
     "env": {
-        "MONG_URI": "@mong_uri"
+        "MONG_URI": "mongodb+srv://Shayan:1234@olumsx-test.bddt8lm.mongodb.net/?retryWrites=true&w=majority&appName=OLumsX-Test"
       }
 }
