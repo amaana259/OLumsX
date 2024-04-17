@@ -2,13 +2,12 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon, ShoppingCartIcon, HeartIcon } from '@heroicons/react/24/outline'
-import axios from 'axios';
 
 import "../../styles/Navbar.css"
 
 let navigation = [
-    { name: 'About', href: '#', current: false },
-    { name: 'Home', href: '#', current: false },
+    { name: 'About', href: '/ourteam', current: false },
+    { name: 'Home', href: '/customerhome', current: false },
 ]
 
 function classNames(...classes) {
@@ -21,7 +20,7 @@ export default function Navbar({ currentPage }) {
         current: item.name === currentPage,
     }));
 
-    const userID = '6617bc2ecf757dfbbdaed2f8'
+    const userID = localStorage.getItem("userID") || '6617bc2ecf757dfbbdaed2f8';
     const [userName, setUserName] = useState('');
 
     useEffect(() => {
@@ -165,7 +164,7 @@ export default function Navbar({ currentPage }) {
                                             <Menu.Item>
                                                 {({ active }) => (
                                                     <a
-                                                        href="#"
+                                                        href="/profile"
                                                         className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                     >
                                                         Your Profile
@@ -176,13 +175,41 @@ export default function Navbar({ currentPage }) {
                                             <Menu.Item>
                                                 {({ active }) => (
                                                     <a
-                                                        href="#"
+                                                        href="/customerorders"
                                                         className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                     >
-                                                        Sign out
+                                                        Your Orders
                                                     </a>
                                                 )}
                                             </Menu.Item>
+
+                                            <Menu.Item>
+                                                {({ active }) => (
+                                                    <a
+                                                        href="/chatcustomer"
+                                                        className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                                    >
+                                                        Your Chats
+                                                    </a>
+                                                )}
+                                            </Menu.Item>
+
+                                            <Menu.Item>
+  {({ active }) => (
+    <a
+      href="/"
+      className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+      onClick={(e) => {
+        e.preventDefault();
+        localStorage.clear();
+
+        window.location.href = '/';
+      }}
+    >
+      Sign out
+    </a>
+  )}
+</Menu.Item>
                                         </Menu.Items>
                                     </Transition>
                                 </Menu>

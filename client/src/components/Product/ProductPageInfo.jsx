@@ -75,7 +75,7 @@ export default function ProductPageInfo(props) {
     const navigator = useNavigate(); // For navigation
 
     const handleChatClick = () => {
-        navigator('/chat'); // Navigate to chat page
+        navigator(`/fullchatcustomer/${vendorID}`); // Navigate to chat page
     };
 
     return (

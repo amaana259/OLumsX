@@ -3,9 +3,11 @@ import Navbar from "../components/Header/Navbar";
 import ChatAppCustomer from "../components/Chat/DisplayChatCustomer";
 
 export default function ChatCustomer() {
+  const customer_id = localStorage.getItem('userID') || "6617bc2ecf757dfbbdaed2f8";
+
   const [selectedChat, setSelectedChat] = useState(null);
   const [chats, setChats] = useState([]);
-
+  const [vendor_id, setVendorId] = useState("");
   useEffect(() => {
     const interval = setInterval(fetchChats, 5000);
     fetchChats();
@@ -15,13 +17,12 @@ export default function ChatCustomer() {
 
   const fetchChats = async () => {
     try {
-      localStorage.setItem('customerID', "6617bc2ecf757dfbbdaed2f8");
       const response = await fetch('http://localhost:4000/api/chat/customerchats', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ customerID: localStorage.getItem('customerID') })
+        body: JSON.stringify({ customerID: customer_id })
       });
 
       if (!response.ok) {
@@ -39,6 +40,7 @@ export default function ChatCustomer() {
 
   const selectChat = (chat) => {
     setSelectedChat(chat);
+    setVendorId(chat.vendorID);
   };
 
   return (
@@ -46,9 +48,7 @@ export default function ChatCustomer() {
       <div className="shadow-lg">
         <Navbar />
 
-        {/* <!-- Chat List --> */}
         <div className="flex flex-row bg-white h-screen pt-12">
-
           {/* <!-- Vendor Chat List --> */}
           <div className="w-1/4 flex flex-col border-r border-gray-200 overflow-y-auto">
             <div className="bg-blue-600 text-white p-4 w-full">
@@ -70,7 +70,7 @@ export default function ChatCustomer() {
           {/* <!-- Chat Detail View --> */}
           <div className="w-3/4 flex flex-col overflow-y-auto">
             {selectedChat ? (
-              <ChatAppCustomer vendorID="123" />          // pass vendorID here.
+              <ChatAppCustomer vendorID={vendor_id} />
             ) : (
               <div className="p-4 mt-3">
                 <div className="text-gray-800 text-xl font-semibold">Select a chat to view the conversation</div>

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 export default function DisplayChat(props) {
-  // const customer_id = props.customerID;
+  const customer_id = props.customerID;
+//   console.log(props);
+//   localStorage.setItem('customeridchat',vendor_id);
 
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
@@ -25,25 +27,25 @@ export default function DisplayChat(props) {
 
   const handleMessageSend = async () => {
     try {
+      console.log(localStorage.getItem('vendoridchat'));
       if (inputMessage.trim() === '') {
         return;
       }
       fetchMessages();
-      const response = await fetch('http://localhost:4000/api/chat/createmessage', {
+      const response = await fetch('/api/chat/createmessage', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           from: localStorage.getItem('vendorID'),
-          // to: localStorage.getItem('customerID'),
-          to: "6617bc2ecf757dfbbdaed2f8",
+          to: customer_id,
           message: inputMessage
         }),
       });
       if (response.ok) {
         console.log('Message sent successfully!');
-        setInputMessage(''); // Clear the input field upon successful message send
+        setInputMessage(''); 
       } else {
         console.error('Failed to send message:', response.statusText);
       }
@@ -60,22 +62,13 @@ export default function DisplayChat(props) {
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`flex flex-col ${message.from.user_type === 'Customer' ? 'items-start' : 'items-end'}`}
-                // className={`flex w-full ${message.from.user_type === 'Customer' ? 'justify-end' : 'justify-start'}`}
+                className={`flex flex-col ${message.from.user_type === 'Vendor' ? 'items-end' : 'items-start'}`}
               >
                 <div className="py-1">
-                <div className={`min-w-1/4 text-right w-fit max-w-2/3 ${message.from.user_type === 'Customer' ? 'bg-blue-500' : 'bg-green-500'} p-3 rounded-lg shadow mb-1`}>
-        <p className="text-slate-100 text-sm">{message.message}</p>
-      </div>
-                  <p className={`text-xs text-gray-500 ${message.from.user_type === 'Customer' ? 'text-left' : 'text-right'}`}>
-              {message.from.username} at {
-                new Date(message.timestamp).toLocaleTimeString('en-US', {
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  second: '2-digit'
-                })
-              }
-            </p>
+                  <div className="max-w-2/3 bg-blue-500 p-3 rounded-lg shadow mb-1">
+                    <p className="text-slate-100 text-sm">{message.message}</p>
+                  </div>
+                  <p className="text-xs text-gray-500">{message.from.username} at {message.timestamp}</p>
                 </div>
               </div>
             ))}
@@ -110,7 +103,7 @@ export default function DisplayChat(props) {
 
 const fetchMessagesFromBackend = async () => {
   try {
-    const response = await fetch('http://localhost:4000/api/chat/fetchmessages', {
+    const response = await fetch('/api/chat/fetchmessages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

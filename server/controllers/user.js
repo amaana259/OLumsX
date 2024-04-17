@@ -97,11 +97,31 @@ export const loginUser = TryCatch(async (req, res, next) => {
       return res.status(400).json({ error: "Invalid password enter" });
     }
 
-    res.status(200).json({
-      message: "Logged in successfully",
-      user_id: user._id,
-      user_type: user.user_type,
-    });
+    const token = jwt.sign({
+      _id: user._id,
+      isSeller: user.isSeller
+    }, process.env.JWT_SECRET, { expiresIn: '7 days' });
+
+    const cookieConfig = {
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 60 * 60 * 24 * 7 * 1000,
+      path: '/'
+    };
+
+    // res.status(200).json({
+    //   message: "Logged in successfully",
+    //   user_id: user._id,
+    //   user_type: user.user_type,
+    // });
+
+    res.cookie('accessToken', token, cookieConfig)
+      .status(202).json({
+        message: 'Logged in successfully',
+        user_id: user._id,
+        user_type: user.user_type
+      });
   } catch (err) {
     // console.log(err);
     res.status(500).json({ error: "Error during login" });
@@ -128,8 +148,9 @@ export const updateUser = TryCatch(async (req, res, next) => {
     user.username = user.username;
     user.email = user.email;
 
-    const hashedPassword = await bcrypt.hash (password, 5);
-    user.password = hashedPassword;
+    // const hashedPassword = await bcrypt.hash (password, 5);
+    // user.password = hashedPassword;
+    user.password = password;
 
     user.user_type = user.user_type;
     user.first_name = first_name;
@@ -204,3 +225,14 @@ export const getUserDetails = TryCatch(async (req, res, next) => {
         res.status(500).json({ error: "Internal server error" });
       }
 });
+
+export const logoutUser = TryCatch(async (req, res, next) => {
+  res.clearCookie('accessToken', {
+    sameSite: 'none',
+    secure: true
+  }).send({
+    error: false,
+    message: 'User have been logged out!'
+  });
+});
+

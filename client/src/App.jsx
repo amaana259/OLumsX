@@ -16,7 +16,10 @@ import ProductPage from "./pages/ProductPage";
 import Cart from "./pages/Cart";
 import ChatCustomer from "./pages/ChatCustomer";
 import ChatVendor from "./pages/ChatVendor";
+import FullDisplayChatCustomer from "./pages/FullDisplayChatCustomer";
 import WishlistGrid from "./components/Product/WishListGrid";
+import CustomerOrderHistory from "./pages/CustomerOrderHistory";
+import Profile from "./pages/Profile";
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
@@ -34,15 +37,18 @@ library.add(fab, faHeart, faUser, faCartShopping, faGear, faMagnifyingGlass);
 function App() {
   return (
     <BrowserRouter>
-        <CssBaseline />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/product/:id" element={<ProductPage />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/chat" element={<ChatCustomer />} />
-          <Route path="/chatvendor" element={<ChatVendor />} />
-          <Route path="/wishlist" element={<WishlistGrid />} />
-        </Routes>
+      <CssBaseline />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/chatcustomer" element={<ChatCustomer />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/fullchatcustomer/:vendorID" element={<FullDisplayChatCustomer />} />
+        <Route path="/chatvendor" element={<ChatVendor />} />
+        <Route path="/customerorders" element={<CustomerOrderHistory />} />
+        <Route path="/wishlist" element={<WishlistGrid />} />
+      </Routes>
     </BrowserRouter>
   );
 }

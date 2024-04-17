@@ -5,7 +5,7 @@ import ChatAppVendor from "../components/Chat/DisplayChatVendor";
 export default function ChatVendor() {
   const [selectedChat, setSelectedChat] = useState(null);
   const [chats, setChats] = useState([]);
-
+  const [customer_id, setCustomerId]=useState("");
   useEffect(() => {
     const interval = setInterval(fetchChats, 5000);
     fetchChats();
@@ -16,7 +16,7 @@ export default function ChatVendor() {
   const fetchChats = async () => {
     try {
       localStorage.setItem('vendorID', "6613a7dc55dba4d67173b0da");
-      const response = await fetch('http://localhost:4000/api/chat/vendorchats', {
+      const response = await fetch('/api/chat/vendorchats', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -39,6 +39,7 @@ export default function ChatVendor() {
 
   const selectChat = (chat) => {
     setSelectedChat(chat);
+    setCustomerId(chat.customerID);
   };
 
   return (
@@ -70,7 +71,7 @@ export default function ChatVendor() {
           {/* <!-- Chat Detail View --> */}
           <div className="w-3/4 flex flex-col overflow-y-auto">
             {selectedChat ? (
-              <ChatAppVendor customerID="123" />          // pass customerID here.
+              <ChatAppVendor customerID={customer_id} />
             ) : (
               <div className="p-4 mt-3">
                 <div className="text-gray-800 text-xl font-semibold">Select a chat to view the conversation</div>

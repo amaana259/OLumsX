@@ -3,123 +3,10 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ProductPageInfo from '../components/Product/ProductPageInfo';
 import ProductReviews from '../components/Product/ProductReviews';
+import Navbar from '../components/Header/Navbar';
 
 // On clicking vendor name, link to vendor page!!!!!
 // Add share option
-
-// const product = {
-//     name: 'Basic Tee 6-Pack',
-//     price: '$192',
-//     href: '#',
-//     images: [
-//         {
-//             src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg',
-//             alt: 'Two each of gray, white, and black shirts laying flat.',
-//         },
-//         {
-//             src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg',
-//             alt: 'Model wearing plain black basic tee.',
-//         },
-//         {
-//             src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg',
-//             alt: 'Model wearing plain gray basic tee.',
-//         },
-//         {
-//             src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg',
-//             alt: 'Model wearing plain white basic tee.',
-//         },
-//     ],
-//     description:
-//         'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
-//     vendor: 'Olala Olala'
-// }
-const reviews = { href: '#', average: 4, totalCount: 117 }
-const reviews_arr = [
-    {
-        id: 1,
-        user: "John Doe",
-        content: "Great quality tees, very comfortable to wear.",
-        rating: 5,
-    },
-    {
-        id: 2,
-        user: "Jane Smith",
-        content: "I love the colors! They haven't faded in the wash.",
-        rating: 4,
-    },
-    {
-        id: 3,
-        user: "Jane Smith",
-        content: "I love the colors! They haven't faded in the wash.",
-        rating: 4,
-    },
-    {
-        id: 4,
-        user: "Jane Smith",
-        content: "I love the colors! They haven't faded in the wash.",
-        rating: 3,
-    },
-    {
-        id: 5,
-        user: "Jane Smith",
-        content: "I love the colors! They haven't faded in the wash.",
-        rating: 2,
-    },
-    {
-        id: 6,
-        user: "Jane Smith",
-        content: "I love the colors! They haven't faded in the wash.",
-        rating: 1,
-    },
-    {
-        id: 7,
-        user: "Jane Smith",
-        content: "I love the colors! They haven't faded in the wash.",
-        rating: 2,
-    },
-    {
-        id: 8,
-        user: "Jane Smith",
-        content: "I love the colors! They haven't faded in the wash.",
-        rating: 1,
-    },
-    {
-        id: 9,
-        user: "Jane Smith",
-        content: "I love the colors! They haven't faded in the wash.",
-        rating: 2,
-    },
-    {
-        id: 10,
-        user: "Jane Smith",
-        content: "I love the colors! They haven't faded in the wash.",
-        rating: 1,
-    },
-    {
-        id: 11,
-        user: "Jane Smith",
-        content: "I love the colors! They haven't faded in the wash.",
-        rating: 2,
-    },
-    {
-        id: 12,
-        user: "Jane Smith",
-        content: "I love the colors! They haven't faded in the wash.",
-        rating: 1,
-    },
-    {
-        id: 13,
-        user: "Jane Smith",
-        content: "I love the colors! They haven't faded in the wash.",
-        rating: 2,
-    },
-    {
-        id: 14,
-        user: "Jane Smith",
-        content: "I love the colors! They haven't faded in the wash.",
-        rating: 1,
-    },
-]
 
 export default function ProductPage() {
     const { id } = useParams();
@@ -167,7 +54,6 @@ export default function ProductPage() {
         const fetchReviews = async (productId) => {
             try {
                 const reviewsResponse = await axios.get(`http://localhost:4000/api/review/getreviews/${productId}`);
-                console.log('Reviews data:', reviewsResponse.data);
                 setReviewsArr(reviewsResponse.data);
             } catch (error) {
                 console.error('Error fetching reviews:', error.response?.data || error.message);
@@ -183,8 +69,18 @@ export default function ProductPage() {
         return
     }
 
+    const averageRating = reviews_arr.length > 0
+        ? reviews_arr.reduce((acc, review) => acc + review.rating, 0) / reviews_arr.length
+        : 0;
+    const numReviews = reviews_arr.length
+    const reviews = { average: averageRating, totalCount: numReviews }
+
     return (
         <>
+            <Navbar />
+
+            <div className='pt-16'></div>
+
             <ProductPageInfo product={product} reviews={reviews} scrollToReviews={scrollToReviews} />
             <ProductReviews ref={reviewRef} reviews={reviews_arr} />
         </>
