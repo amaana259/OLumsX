@@ -1,0 +1,126 @@
+.register-main {
+  display: flex;
+  overflow: hidden; // Ensures no overflow scrollbars
+  align-items: stretch; // Aligns children vertically
+  min-height: 70vh;
+}
+
+.register-left,
+.register-right {
+  transform: translate(0px, -90px);
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-left {
+  background-color: #ffffff; // Light background for a softer appearance
+  flex: 0.9; // Ensures that .register-left takes up half of the .register-main space if that's flex
+  display: flex;
+  align-items: center; // Vertically center the content within the div
+  justify-content: center; // Horizontally center the content within the div
+  position: relative; // Position relative for absolute positioning of child elements if needed
+  overflow: hidden; // Ensures nothing spills out
+
+  img {
+    position: absolute; // Absolute position within the relative container
+    max-width: 100%; // Limits the image width to not exceed the container
+    max-height: 100%; // Limits the image height to not exceed the container
+    top: 50%; // Positions the top of the image at the center
+    left: 50%; // Positions the left of the image at the center
+    transform: translate(-35%, -60%); // Correctly centers the image
+    opacity:0.9; // Slightly see-through
+    scale: 1.5;
+  }
+}
+
+
+.register-right-container {
+  margin-left: 2rem;
+  margin-right: 2rem;
+  width: 100%; // Gives more breathing room
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; // Center content horizontally
+}
+
+.register-logo img {
+  width: 100px; // Increased size for visibility
+  margin-bottom: 20px; // Space between logo and form
+}
+
+.register-center {
+  text-align: center;
+  width: 100%; // Utilize full container width
+
+  h2 {
+    font-size: 28px; // Optimized font size for headings
+    color: #333; // Darker text for better readability
+  }
+
+  p {
+    color: #666; // Lighter text for less emphasis
+    margin-bottom: 20px; // Adequate spacing
+  }
+}
+
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  input,
+  select {
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc; // Subtle borders
+    border-radius: 8px; // Rounded corners
+    background-color: #fff; // Bright input fields for contrast
+
+    &:focus {
+      border-color: #0056b3; // Highlight focus
+    }
+  }
+
+  .pass-input-div {
+    position: relative;
+
+    svg {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+  }
+
+  button[type='submit'] {
+    padding: 15px;
+    background-color: #0056b3; // Consistent theme color
+    color: white;
+    border: none;
+    border-radius: 8px; // Rounded corners
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #004494; // Darker on hover for interaction feedback
+    }
+  }
+}
+
+.login-bottom-p {
+  margin-top: 20px; // Position adjustment
+  font-size: 14px;
+  text-align: center;
+
+  a {
+    color: #0056b3;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
