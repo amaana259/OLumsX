@@ -19,6 +19,7 @@ import ChatVendor from "./pages/ChatVendor";
 import FullDisplayChatCustomer from "./pages/FullDisplayChatCustomer";
 import WishlistGrid from "./components/Product/WishListGrid";
 import CustomerOrderHistory from "./pages/CustomerOrderHistory";
+import Profile from "./pages/Profile";
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
@@ -42,6 +43,7 @@ function App() {
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/chatcustomer" element={<ChatCustomer />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/fullchatcustomer/:vendorID" element={<FullDisplayChatCustomer />} />
         <Route path="/chatvendor" element={<ChatVendor />} />
         <Route path="/customerorders" element={<CustomerOrderHistory />} />
