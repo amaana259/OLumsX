@@ -17,7 +17,7 @@ app.use(cors(
 ));
 app.use(express.json())
 
-mongoose.connect('mongodb+srv://Amaan:password12345@olumsx-test.bddt8lm.mongodb.net/?retryWrites=true&w=majority&appName=OLumsX-Test');
+mongoose.connect('mongodb+srv://Shayan:1234@olumsx-test.bddt8lm.mongodb.net/?retryWrites=true&w=majority&appName=OLumsX-Test');
 
 
 app.get("/", (req, res) => {
