@@ -7,7 +7,7 @@ import "../../styles/Navbar.css"
 
 let navigation = [
     { name: 'About', href: '/ourteam', current: false },
-    { name: 'Home', href: '/customerhome', current: false },
+    { name: 'Home', href: '/', current: false },
 ]
 
 function classNames(...classes) {
