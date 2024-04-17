@@ -68,7 +68,15 @@ export default function DisplayChat(props) {
                   <div className="max-w-2/3 bg-blue-500 p-3 rounded-lg shadow mb-1">
                     <p className="text-slate-100 text-sm">{message.message}</p>
                   </div>
-                  <p className="text-xs text-gray-500">{message.from.username} at {message.timestamp}</p>
+                  <p className={`text-xs text-gray-500 ${message.from.user_type === 'Customer' ? 'text-right' : 'text-left'}`}>
+              {message.from.username} at {
+                new Date(message.timestamp).toLocaleTimeString('en-US', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit'
+                })
+              }
+            </p>
                 </div>
               </div>
             ))}
