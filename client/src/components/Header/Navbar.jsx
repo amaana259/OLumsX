@@ -210,6 +210,7 @@ export default function Navbar({ currentPage }) {
     </a>
   )}
 </Menu.Item>
+
                                         </Menu.Items>
                                     </Transition>
                                 </Menu>
