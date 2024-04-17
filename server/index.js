@@ -20,7 +20,7 @@ const app = express();
 
 app.use(cors(
     {
-        origin: ["https://olumsx-backend-deploy.vercel.app"],
+        origin: ["https://olumsx-backend-deploy-new.vercel.app"],
         methods: ["POST", "GET", "PATCH", "DELETE", "PUT"],
         credentials: true
     }
