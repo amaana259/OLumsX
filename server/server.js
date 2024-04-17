@@ -1,7 +1,11 @@
-import express from "express";
-import dotenv from "dotenv";
-import mongoose from "mongoose";
-import cors from "cors";
+// import express from "express";
+// import dotenv from "dotenv";
+// import mongoose from "mongoose";
+// import cors from "cors";
+const express = require('express')
+const dotenv = require('dotenv')
+const mongoose = require('mongoose')
+const cors = require('cors')
 // const RegisterModel = require('./models/Register')
 
 import userRoute from './routes/user.js';
