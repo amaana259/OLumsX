@@ -6,6 +6,9 @@
 import express from 'express'
 import mongoose from 'mongoose';
 import cors from 'cors';
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express()
 app.use(cors(
@@ -17,7 +20,9 @@ app.use(cors(
 ));
 app.use(express.json())
 
-mongoose.connect('mongodb+srv://Shayan:1234@olumsx-test.bddt8lm.mongodb.net/?retryWrites=true&w=majority&appName=OLumsX-Test');
+mongoose.connect(process.env.MONG_URI);
+
+// mongoose.connect('mongodb+srv://Shayan:1234@olumsx-test.bddt8lm.mongodb.net/?retryWrites=true&w=majority&appName=OLumsX-Test');
 
 
 app.get("/", (req, res) => {
