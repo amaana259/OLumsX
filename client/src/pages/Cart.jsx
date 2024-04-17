@@ -181,7 +181,7 @@ const Cart = () => {
             <div className="w-full md:w-1/4 fixed bottom-0 md:top-0 right-0 md:sticky md:h-(screen-100) p-4 bg-gray-50 rounded-lg shadow-md z-10">
                 <h2 className="font-semibold text-xl text-gray-700">Summary</h2>
                 <div className="mt-4">
-                    <p className="text-gray-600">Items 3</p>
+                    <p className="text-gray-600">Items {products.length} </p>
                     {products.map((product) => (
 
                         <div key={product._id} className="flex items-start justify-between border-b p-4">
@@ -203,7 +203,7 @@ const Cart = () => {
                 {/* Total Price */}
                 <div className="flex justify-between mt-4">
                     <p className="text-gray-600">Total Price:</p>
-                    <p className="font-semibold text-gray-900">Rs.{parseFloat(tot_price) + 5 /* Shipping */}</p>
+                    <p className="font-semibold text-gray-900">Rs.{parseFloat(tot_price) /* Shipping */}</p>
                 </div>
                 <button className="w-full mt-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
                     onClick={() => handleCheckout()}>
