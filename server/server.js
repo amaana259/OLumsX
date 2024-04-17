@@ -33,7 +33,11 @@ mongoose.connect(process.env.MONG_URI)
 
 
 app.get("/", (req, res) => {
+  try{
     res.json("hello there");
+  }catch(err) {
+    res.status(500).json({ error: "not working" });
+  }
 })
 app.post('/register', (req, res) => {
     const {name, email, password} = req.body;
