@@ -9,15 +9,13 @@ const app = express()
 app.use(cors(
     {
         origin: ["https://olumsx-backend-deploy-new.vercel.app"],
-        methods: ["POST", "GET"],
+        methods: ["POST", "GET", "PATCH", "DELETE", "PUT"],
         credentials: true
     }
 ));
+
 app.use(express.json())
 
-// mongoose.connect(process.env.MONG_URI);
-
-// mongoose.connect("mongodb+srv://Shayan:1234@olumsx-test.bddt8lm.mongodb.net/?retryWrites=true&w=majority&appName=OLumsX-Test");
 try {
   mongoose
     .connect("mongodb+srv://Shayan:1234@olumsx-test.bddt8lm.mongodb.net/?retryWrites=true&w=majority&appName=OLumsX-Test")

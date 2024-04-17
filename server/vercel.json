@@ -1,10 +1,10 @@
 {
     "version": 2,
     "builds": [
-      { "src": "*.js", "use": "@vercel/node" }
+      { "src": "/api/**/*.js", "use": "@vercel/node" }
     ],
     "routes": [
-      { "src": "/(.*)", "dest": "/" }
+      { "src": "/api/(.*)", "dest": "/api/$1.js" }
     ],
     "env": {
         "MONG_URI": "mongodb+srv://Shayan:1234@olumsx-test.bddt8lm.mongodb.net/?retryWrites=true&w=majority&appName=OLumsX-Test"
