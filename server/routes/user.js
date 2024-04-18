@@ -1,5 +1,6 @@
 import express from "express";
 import { newUser, loginUser , updateUser, deleteUser, getUserDetails} from "../controllers/user.js";
+import { authenticate } from "../middlewares/authenticate.js";
 const app = express.Router();
 
 // Route to Signup page
@@ -16,5 +17,9 @@ app.delete('/deleteuser', deleteUser);
 
 // Finding user details by ID
 app.post('/getuserbyid', getUserDetails);
+
+// Check Auth status
+app.get('/me', authenticate, (req, res) => {
+});
 
 export default app;
