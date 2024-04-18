@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { CustomException } from '../utils/CustomException';
+import {CustomException} from '../utils/CustomException.js';
 
 export const authenticate = (request, response, next) => {
     const { accessToken } = request.cookies;
