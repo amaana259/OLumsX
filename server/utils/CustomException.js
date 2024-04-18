@@ -3,5 +3,4 @@ export const CustomException = (message, status) => {
     error.status = status;
     return error;
 }
-
 // module.exports = CustomException;
