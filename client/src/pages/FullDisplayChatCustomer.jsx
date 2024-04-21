@@ -57,6 +57,7 @@ export default function FullDisplayChatCustomer() {
   const handleMessageSend = async () => {
     try {
       if (inputMessage.trim() === '') {
+        console.log("error: message cannot be empty, please enter some text")
         alert("message cannot be empty, please enter some text")
         return;
       }
