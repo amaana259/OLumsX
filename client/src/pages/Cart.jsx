@@ -58,6 +58,7 @@ const Cart = () => {
             .then(data => {
                 if (data.error) {
                     alert(data.error);
+                    console.log(`error: ${data.error}`);
                     navigator("/customerHome");
                 } else {
                     alert(data.message);
@@ -72,9 +73,11 @@ const Cart = () => {
                         .then(data => {
                             if (data.error) {
                                 alert(data.error);
+                                console.log(`error: ${data.error}`);
                             } else {
                                 setProducts(data);
                                 updateTotalPrice();
+                                console.log("product removed from cart successfully. ");
                             }
                         });
                 }
@@ -97,6 +100,7 @@ const Cart = () => {
             .then(data => {
                 if (data.error) {
                     alert(data.error);
+                    console.log(`error: ${data.error}`);
                     navigator("/customerHome");
                 } else {
                     alert(data.message);
@@ -111,9 +115,11 @@ const Cart = () => {
                         .then(data => {
                             if (data.error) {
                                 alert(data.error);
+                                console.log(`error: ${data.error}`);
                             } else {
                                 setProducts(data);
                                 updateTotalPrice();
+                                console.log("product added to cart successfully. ");
                             }
                         });
                 }
@@ -135,9 +141,11 @@ const Cart = () => {
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
+                    console.log(`error: ${data.error}`);
                     alert(data.error);
                 } else {
                     alert("Orders placed successfully for each vendor.");
+                    console.log("orders placed successfully for each vendor.");
                 }
             })
             .catch(error => {
