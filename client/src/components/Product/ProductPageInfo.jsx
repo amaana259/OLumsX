@@ -10,6 +10,7 @@ function classNames(...classes) {
 }
 
 export default function ProductPageInfo(props) {
+    const customerID = localStorage.getItem("userID") || "661575274bf91a5b120aaf42";
     const product = props.product;
     const reviews = props.reviews;
 
@@ -19,7 +20,7 @@ export default function ProductPageInfo(props) {
     useEffect(() => {
         const getUserDetails = async () => {
             try {
-                const response = await fetch('https://olumsx-backend-deploy-new.vercel.app/api/user/getuserbyid', {
+                const response = await fetch('http://localhost:4000/api/user/getuserbyid', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -76,6 +77,25 @@ export default function ProductPageInfo(props) {
 
     const handleChatClick = () => {
         navigator(`/fullchatcustomer/${vendorID}`); // Navigate to chat page
+    };
+
+    const addToCart = async () => {
+        try {
+            const response = await fetch(`http://localhost:4000/api/prodcart/addtocart`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ customerID: customerID, productID: product._id })
+            });
+            console.log("Cus", customerID, "prod", product._id);
+            console.log(response);
+            if (!response.ok) throw new Error('Failed to add product to cart');
+            alert('Product added to cart successfully!');
+            console.log('Product added to cart successfully!');
+            alert('Product added to cart successfully!');
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            alert('Failed to add product to cart');
+        }
     };
 
     return (
@@ -156,7 +176,10 @@ export default function ProductPageInfo(props) {
                     </div>
 
                     {/* Add to Cart Button */}
-                    <form className="mt-10">
+                    <form className="mt-10" onSubmit={(e) => {
+                        e.preventDefault();
+                        addToCart();
+                    }}>
                         <button
                             type="submit"
                             className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
