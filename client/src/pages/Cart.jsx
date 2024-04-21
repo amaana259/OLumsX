@@ -158,6 +158,7 @@ const Cart = () => {
     return (
         <div>
             <Navbar />
+            <div className="pb-8"> </div>
         <div className="container mx-auto p-6 flex flex-col md:flex-row">
             {/* Cart Items */}
             <div className="flex-grow p-4 bg-white rounded-lg shadow-md mb-4 md:mb-0">
