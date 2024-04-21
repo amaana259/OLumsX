@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Navbar from '../components/Navbar'
 
 const Cart = () => {
     const navigator = useNavigate();
@@ -155,6 +156,8 @@ const Cart = () => {
     };
 
     return (
+        <div>
+            <Navbar />
         <div className="container mx-auto p-6 flex flex-col md:flex-row">
             {/* Cart Items */}
             <div className="flex-grow p-4 bg-white rounded-lg shadow-md mb-4 md:mb-0">
@@ -218,6 +221,7 @@ const Cart = () => {
                     Checkout
                 </button>
             </div>
+        </div>
         </div>
     );
 };
