@@ -29,6 +29,7 @@ export default function DisplayChat(props) {
     try {
       console.log(localStorage.getItem('vendoridchat'));
       if (inputMessage.trim() === '') {
+        alert("message cannot be empty, please enter some text")
         return;
       }
       fetchMessages();
