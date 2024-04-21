@@ -27,6 +27,7 @@ export default function DisplayChatCustomer(props) {
   const handleMessageSend = async () => {
     try {
       if (inputMessage.trim() === '') {
+        alert("message cannot be empty, please enter some text")
         return;
       }
       fetchMessages();
