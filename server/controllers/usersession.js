@@ -34,7 +34,9 @@ export const fetchLatestUserSession = TryCatch(async (req, res, next) => {
     try {
         const latestUserSession = await userSession.findOne().sort({ timestamp: -1 });
         if (latestUserSession) {
-            const { userID, role } = latestUserSession;
+            const userID = latestUserSession.userID;
+            const role = latestUserSession.role;
+            // const { userID, role } = latestUserSession;
             res.status(200).json({ userID, role });
         } else {
             res.status(404).json({ error: "No user session found" });
@@ -43,4 +45,3 @@ export const fetchLatestUserSession = TryCatch(async (req, res, next) => {
         res.status(500).json({ error: "Failed to fetch latest user session" });
     }
 });
-
