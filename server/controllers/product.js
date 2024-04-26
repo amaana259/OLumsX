@@ -96,7 +96,7 @@ export const addProduct = TryCatch(async (req, res) => {
     price,
     vendor,
     description,
-    imageUrls,
+    ...(imageUrls && { imageUrls }),
   });
 
   await product.save();
@@ -132,7 +132,7 @@ export const addProduct = TryCatch(async (req, res) => {
 // Method to update a product currently in the database.
 export const updateProduct = TryCatch(async (req, res) => {
   try {
-    const { _id, name, category, price, vendor, description, imageUrls } = req.body;
+    const { _id, name, category, price, vendor, description } = req.body;
 
     if (!_id) {
       return res.status(400).json({ error: "Product ID is required for updating." });

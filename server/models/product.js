@@ -27,7 +27,10 @@ const prodSchema = new mongoose.Schema ({
     type: Boolean,
     default: false,
   },
-  imageUrls: [String]
+  imageUrls: {
+    type: [String],
+    default: ["https://olumsx.s3.eu-north-1.amazonaws.com/bluejeans-1", "https://olumsx.s3.eu-north-1.amazonaws.com/bluejeans-2", "https://olumsx.s3.eu-north-1.amazonaws.com/bluejeans-3"]
+  }
 }, { timestamps: true });
 
 const Product = new mongoose.model ('Product', prodSchema);

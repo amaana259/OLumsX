@@ -122,13 +122,12 @@ app.get("/", (req, res) => {
 
 app.post('/uploadproductimages', upload.array('productImages', 4), (req, res) => {
   console.log('Request received');
-  console.log('Authorization:', req.headers.authorization); // Check the authorization token
+  console.log('Authorization:', req.headers.authorization);
   console.log('AWS Credentials:', {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  }); // Check if AWS credentials are accessible
+  });
 
-  // Your existing code for handling file uploads
   const files = req.files;
   const uploadPromises = files.map((file, index) => {
     const uniqueKey = `${Date.now()}-${index}-${file.originalname}`;
