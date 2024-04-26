@@ -12,6 +12,7 @@ import prodcartRoute from './routes/productsincart.js';
 import wishlistRoute from './routes/wishlist.js'
 import reviewRoute from './routes/reviews.js'
 import adRoute from './routes/ad.js'
+import sessionRoute from './routes/usersession.js'
 
 import { connectDB } from "./utils/features.js";
 import { errorMiddleware } from "./middlewares/error.js";
@@ -94,8 +95,11 @@ app.use("/api/orders", orderRoute);
 // Reviews api routing
 app.use("/api/review", reviewRoute);
 
-// Reviews ad routing
+// Ad routing
 app.use("/api/ad", adRoute);
+
+// Session routing
+app.use("/api/session", sessionRoute);
 
 app.use(errorMiddleware);
 
