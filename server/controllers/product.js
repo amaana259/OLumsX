@@ -210,8 +210,7 @@ export const recentProducts = TryCatch(async (req, res,next) => {
     if (!userId) {
       return res.status(400).json({ error: 'User ID is required' });
     }
-
-    // Assuming you have a 'createdAt' field in your Product model to track creation time
+    
     const recentProducts = await Product.find({ vendor: userId }).sort({ _id: -1 }).limit(limit);
     console.log(recentProducts)
 
