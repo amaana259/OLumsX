@@ -1,67 +1,77 @@
 import React, { useState, useEffect } from 'react';
-import { StarIcon } from '@heroicons/react/20/solid';
+import { StarIcon, HeartIcon } from '@heroicons/react/20/solid';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 export default function ProductPageInfo(props) {
-    const customerID = localStorage.getItem("userID") || "661575274bf91a5b120aaf42";
+    const customerID = localStorage.getItem("userId") || "661575274bf91a5b120aaf42";
     const product = props.product;
     const reviews = props.reviews;
 
     const vendorID = product.vendor || product.vendor_id
-    const [vendorName, setvendorName] = useState('');
+    const [vendorName, setVendorName] = useState('');
+
+    const [isWishlisted, setIsWishlisted] = useState(product.wishlisted);
 
     useEffect(() => {
-        const getUserDetails = async () => {
+        const checkIfProductIsWishlisted = async () => {
             try {
-                const response = await fetch('https://olumsx-backend-deploy-new.vercel.app/api/user/getuserbyid', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ UserID: vendorID })
+                const response = await axios.post('https://olumsx-backend-deploy-new.vercel.app/api/wishlist/checkwishlist', {
+                    client_id: customerID,
+                    product_id: product._id
                 });
-
-                if (!response.ok) {
-                    throw new Error('Error');
+                setIsWishlisted(response.data.isWishlisted);
+                if (response.data.isWishlisted) {
+                    console.log('Product is wishlisted.');
+                } else {
+                    console.log('Product is not wishlisted.');
                 }
-
-                const data = await response.json();
-                setvendorName(data.username);
-
             } catch (error) {
-                console.error('Error fetching user details:', error);
+                console.error('Error checking the wishlist:', error);
             }
         };
 
-        getUserDetails();
+        checkIfProductIsWishlisted();
+    }, []);
+
+    useEffect(() => {
+        axios.post('https://olumsx-backend-deploy-new.vercel.app/api/user/getuserbyid', { UserID: vendorID }, {
+            headers: { 'Content-Type': 'application/json' }
+        }).then(response => {
+            setVendorName(response.data.username);
+        }).catch(error => {
+            console.error('Error fetching user details:', error);
+        });
     }, [vendorID]);
 
+    const toggleWishlist = async () => {
+        const url = `https://olumsx-backend-deploy-new.vercel.app/api/wishlist/${isWishlisted ? 'removewishlist' : 'addwishlist'}`;
+        try {
+            await axios.post(url, {
+                client_id: customerID,
+                product_id: product._id
+            }, {
+                headers: { 'Content-Type': 'application/json' }
+            });
 
-    if (!product.hasOwnProperty('images')) {
-        product.images = [
-            {
-                src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg',
-                alt: 'Two each of gray, white, and black shirts laying flat.',
-            },
-            {
-                src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg',
-                alt: 'Model wearing plain black basic tee.',
-            },
-            {
-                src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg',
-                alt: 'Model wearing plain gray basic tee.',
-            },
-            {
-                src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg',
-                alt: 'Model wearing plain white basic tee.',
-            }];
+            // Toggle the state to reflect the change
+            setIsWishlisted(!isWishlisted);
+            alert(`Product ${isWishlisted ? 'removed from' : 'added to'} wishlist successfully!`);
+        } catch (error) {
+            console.error(`Error ${isWishlisted ? 'removing from' : 'adding to'} wishlist:`, error);
+            alert(`Failed to ${isWishlisted ? 'remove product from' : 'add product to'} wishlist`);
+        }
+    };
+
+    if (!product.hasOwnProperty('imageUrls')) {
+        product.imageUrls = ['https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg', 'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg', 'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg', 'https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg'];
     }
 
     const settings = {
@@ -71,7 +81,7 @@ export default function ProductPageInfo(props) {
         slidesToShow: 4,
         slidesToScroll: 1,
     };
-    const [selectedImage, setSelectedImage] = useState(product.images[0]);
+    const [selectedImage, setSelectedImage] = useState(product.imageUrls[0]);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const navigator = useNavigate(); // For navigation
 
@@ -86,11 +96,7 @@ export default function ProductPageInfo(props) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ customerID: customerID, productID: product._id })
             });
-            console.log("Cus", customerID, "prod", product._id);
-            console.log(response);
             if (!response.ok) throw new Error('Failed to add product to cart');
-            alert('Product added to cart successfully!');
-            console.log('Product added to cart successfully!');
             alert('Product added to cart successfully!');
         } catch (error) {
             console.error('Error adding to cart:', error);
@@ -106,8 +112,8 @@ export default function ProductPageInfo(props) {
                     {/* Selected Image */}
                     <div className="aspect-h-3 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
                         <img
-                            src={selectedImage.src}
-                            alt={selectedImage.alt}
+                            src={selectedImage}
+                            alt={"Img"}
                             className="w-full object-cover object-center"
                         />
                     </div>
@@ -115,9 +121,9 @@ export default function ProductPageInfo(props) {
                     {/* Image Thumbnails */}
                     <div className='mt-4 px-3'>
                         <Slider {...settings}>
-                            {product.images.map((image, index) => (
+                            {product.imageUrls.map((image, index) => (
                                 <div className='justify-center p-2' key={index} onClick={() => { setSelectedImage(image); setSelectedIndex(index); }}>
-                                    <img src={image.src} alt={image.alt}
+                                    <img src={image} alt={"Product Image"}
                                         className={`inset-0 object-cover h-20 w-20 rounded-md overflow-hidden cursor-pointer ${index === selectedIndex ? 'outline outline-3 outline-blue-500' : ''}`}
                                     />
                                 </div>
@@ -131,7 +137,14 @@ export default function ProductPageInfo(props) {
 
                     <div className='md:flex md:justify-between'>
                         <div className=''>
-                            <p className="text-xl tracking-tight text-gray-900">Rs {product.price}</p>
+                            <div className="flex items-center">
+                                <p className="text-xl tracking-tight text-gray-900">Rs {product.price}</p>
+                                {/* Conditional Heart Icon for Wishlist */}
+                                <HeartIcon
+                                    className={`ml-3 h-6 w-6 cursor-pointer ${product.wishlisted ? 'text-red-500' : 'text-gray-400'}`}
+                                    onClick={toggleWishlist}
+                                />
+                            </div>
 
                             {/* Review Stars */}
                             <div className="mt-6">

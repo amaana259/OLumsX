@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Header/Navbar';
 
 function Profile() {
-  const userid = localStorage.getItem("userID") || "6617bc2ecf757dfbbdaed2f8";
+  const userid = localStorage.getItem("userId");
   const [user, setUser] = useState({});
   const [password_old, setPasswordOld] = useState('');
   const [editMode, setEditMode] = useState(false);

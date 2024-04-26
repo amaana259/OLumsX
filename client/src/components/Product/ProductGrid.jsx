@@ -1,5 +1,5 @@
 import React, { useEffect, Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon } from '@heroicons/react/20/solid'
@@ -9,14 +9,28 @@ function classNames(...classes) {
 }
 
 const defaultImages = [
-    'https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg',
-    'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg',
-    'https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg',
+    'https://olumsx.s3.eu-north-1.amazonaws.com/Apple%2BiPhone%2B15%2BPro%2BMax_-_24629.webp',
+    'https://olumsx.s3.eu-north-1.amazonaws.com/Apple%2BiPhone%2B15%2BPro%2BMax_-_24629.webp',
+    'https://olumsx.s3.eu-north-1.amazonaws.com/Apple%2BiPhone%2B15%2BPro%2BMax_-_24629.webp',
     'https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg',
 ];
 
-export default function ProductGrid() {
-    const userID = "6617bc2ecf757dfbbdaed2f8"
+const categoryNames = [
+    'Mobile Phones',
+    'Laptops and Computers',
+    'Tech Accessories',
+    'Fashion',
+    'Home and Decor',
+    'Beauty and Health',
+    'Books',
+    'Toys and Games',
+    'Sports and Outdoors',
+    'Food and Grocery'
+];
+
+export default function ProductGrid(props) {
+    const userID = localStorage.getItem("userId") || "6617bc2ecf757dfbbdaed2f8"
+    const category = props.category || "";
 
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
@@ -116,8 +130,9 @@ export default function ProductGrid() {
                 console.error('Failed to fetch products:', error);
             }
         };
-
+        setFilter(category);
         fetchProducts();
+        setFilter(category);
     }, []); // Empty dependency array ensures this runs once on mount
 
 
@@ -169,12 +184,13 @@ export default function ProductGrid() {
                                             <label className="font-semibold text-gray-900 mb-2" htmlFor="category">Category</label>
                                             <select id="category" name="category" className="form-select mt-1 w-full text-sm" value={filter} onChange={handleFilterChange}>
                                                 <option value="">All Categories</option>
-                                                <option value="Electronics">Electronics</option>
-                                                <option value="Clothing">Clothing</option>
-                                                <option value="Accessories">Accessories</option>
+                                                {categoryNames.map(name => (
+                                                    <option key={name} value={name}>
+                                                        {name}
+                                                    </option>
+                                                ))}
                                             </select>
                                         </div>
-
                                         {/* Price Range Filter */}
                                         <div className="border-t border-gray-200 px-4 py-6">
                                             <label className="font-semibold text-gray-900 mb-2">Price Range</label>
@@ -285,12 +301,20 @@ export default function ProductGrid() {
 
                         {/* Categories Filter */}
                         <div className="border-b border-gray-200 pb-6">
-                            <label className="font-semibold text-gray-900 mb-2" htmlFor="category">Category</label>
-                            <select id="category" name="category" className="form-select mt-1 w-full text-sm" value={filter} onChange={handleFilterChange}>
+                            <label for="category" className="block mb-2 text-sm font-medium text-gray-900">Category</label>
+                            <select
+                                id="category"
+                                name="category"
+                                className="form-select mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm"
+                                value={filter}
+                                onChange={handleFilterChange}
+                            >
                                 <option value="">All Categories</option>
-                                <option value="Electronics">Electronics</option>
-                                <option value="Clothing">Clothing</option>
-                                <option value="Accessories">Accessories</option>
+                                {categoryNames.map(name => (
+                                    <option key={name} value={name}>
+                                        {name}
+                                    </option>
+                                ))}
                             </select>
                         </div>
 
@@ -336,7 +360,7 @@ export default function ProductGrid() {
                                     {/* Product Image */}
                                     <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 h-40 lg:h-80">
                                         <img
-                                            src={product.images && product.images.length > 0 ? product.images[0] : defaultImages[Math.floor(Math.random() * defaultImages.length)]}
+                                            src={product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls[0] : defaultImages[Math.floor(Math.random() * defaultImages.length)]}
                                             alt="Product"
                                             className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                                         />

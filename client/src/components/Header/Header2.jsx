@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react'
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
 import { Popover, Transition } from '@headlessui/react'
 import {
   DevicePhoneMobileIcon,
@@ -18,29 +18,27 @@ import {
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
 const categories = [
-  { name: 'Mobile Phones', href: '#', icon: DevicePhoneMobileIcon },
-  { name: 'Laptops and Computers', href: '#', icon: ComputerDesktopIcon },
-  { name: 'Tech Accessories', href: '#', icon: CodeBracketIcon },
-  { name: 'Fashion', href: '#', icon: ShoppingBagIcon },
-  { name: 'Home and Decor', href: '#', icon: HomeIcon },
-  { name: 'Beauty and Health', href: '#', icon: SparklesIcon },
-  { name: 'Books', href: '#', icon: BookOpenIcon },
-  { name: 'Toys and Games', href: '#', icon: PuzzlePieceIcon },
-  { name: 'Sports and Outdoors', href: '#', icon: LifebuoyIcon },
-  { name: 'Food and Grocery', href: '#', icon: CakeIcon },
+  { name: 'Mobile Phones', href: '/categorysearch/mobilephones', icon: DevicePhoneMobileIcon },
+  { name: 'Laptops and Computers', href: '/categorysearch/laptopsandcomputers', icon: ComputerDesktopIcon },
+  { name: 'Tech Accessories', href: '/categorysearch/techaccessories', icon: CodeBracketIcon },
+  { name: 'Fashion', href: '/categorysearch/fashion', icon: ShoppingBagIcon },
+  { name: 'Home and Decor', href: '/categorysearch/homeanddecor', icon: HomeIcon },
+  { name: 'Beauty and Health', href: '/categorysearch/beautyandhealth', icon: SparklesIcon },
+  { name: 'Books', href: '/categorysearch/books', icon: BookOpenIcon },
+  { name: 'Toys and Games', href: '/categorysearch/toysandgames', icon: PuzzlePieceIcon },
+  { name: 'Sports and Outdoors', href: '/categorysearch/sportsandoutdoors', icon: LifebuoyIcon },
+  { name: 'Food and Grocery', href: '/categorysearch/foodandgrocery', icon: CakeIcon },
 ];
 
-export default function Header() {
+
+export default function Header2() {
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   const handleSearch = async () => {
+
     if (searchTerm.trim()) {
-      try {
-        const response = await axios.get(`https://olumsx-backend-deploy-new.vercel.app/api/product/search?query=${searchTerm}`);
-        // navigate('/searchedprods', { state: { products: response.data } });
-      } catch (error) {
-        console.error('Error during product search:', error.response?.data || error.message);
-      }
+      navigate(`/search/${searchTerm}`);
     } else {
       console.log('Please enter a search term.');
     }
@@ -53,10 +51,10 @@ export default function Header() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 flex justify-between items-center p-4">
+    <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 flex justify-between items-center px-4 py-2">
       {/* Categories List */}
       <Popover className="relative">
-        <Popover.Button className="pl-1 flex items-center gap-x-1 text-md font-semibold leading-6 text-gray-900 focus:outline-none">
+        <Popover.Button className="flex items-center gap-x-1 text-md font-semibold leading-6 text-white focus:outline-none">
           Categories
           <ChevronDownIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
         </Popover.Button>

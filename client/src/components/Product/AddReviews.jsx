@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import StarRatings from 'react-star-ratings';
 
 function AddReview(props) {
-    const customerId = localStorage.getItem("userID") || "661575274bf91a5b120aaf42";
+    const customerId = localStorage.getItem("userId") || "661575274bf91a5b120aaf42";
     const { productId } = props;
 
     console.log(customerId, productId)
