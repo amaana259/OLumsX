@@ -48,7 +48,7 @@ export const fetchLatestUserSession = TryCatch(async (req, res, next) => {
             const userID = latestUserSession.userID;
             const role = latestUserSession.role;
             // const { userID, role } = latestUserSession;
-            res.status(200).json({ userID, role });
+            res.status(200).json({ userID:userID, role:role });
         } else {
             res.status(404).json({ error: "No user session found" });
         }
