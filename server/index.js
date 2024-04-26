@@ -97,12 +97,43 @@ app.get("/", (req, res) => {
   }
 })
 
+// app.post('/uploadproductimages', upload.array('productImages', 4), (req, res) => {
+//   const files = req.files;
+//   const uploadPromises = files.map((file, index) => {
+//     const uniqueKey = `${Date.now()}-${index}-${file.originalname}`;
+//     const params = {
+//       Bucket: bucketName,
+//       Key: uniqueKey,
+//       Body: file.buffer,
+//       ContentType: file.mimetype,
+//       ACL: 'public-read',
+//     };
+
+//     return S3.upload(params).promise();
+//   });
+
+//   Promise.all(uploadPromises)
+//     .then(results => {
+//       const imageUrls = results.map(r => r.Location);
+//       res.json({ imageUrls });
+//     })
+//     .catch(error => res.status(500).send(error.message));
+// });
+
 app.post('/uploadproductimages', upload.array('productImages', 4), (req, res) => {
+  console.log('Request received');
+  console.log('Authorization:', req.headers.authorization); // Check the authorization token
+  console.log('AWS Credentials:', {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  }); // Check if AWS credentials are accessible
+
+  // Your existing code for handling file uploads
   const files = req.files;
   const uploadPromises = files.map((file, index) => {
     const uniqueKey = `${Date.now()}-${index}-${file.originalname}`;
     const params = {
-      Bucket: bucketName,
+      Bucket: 'your-bucket-name',
       Key: uniqueKey,
       Body: file.buffer,
       ContentType: file.mimetype,
@@ -113,9 +144,12 @@ app.post('/uploadproductimages', upload.array('productImages', 4), (req, res) =>
   });
 
   Promise.all(uploadPromises)
-    .then(results => {
-      const imageUrls = results.map(r => r.Location);
+    .then((results) => {
+      const imageUrls = results.map((r) => r.Location);
       res.json({ imageUrls });
     })
-    .catch(error => res.status(500).send(error.message));
+    .catch((error) => {
+      console.error('Error uploading to S3:', error);
+      res.status(500).json({ error: 'Failed to upload files.' });
+    });
 });
