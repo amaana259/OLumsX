@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { TryCatch } from "../middlewares/error.js";
 import bcrypt from 'bcrypt';
 import userSession from '../models/usersession.js';
+import { ObjectId } from 'mongodb';
 
 // create user session entry.
 export const createUserSession = TryCatch(async (req, res, next) => {
@@ -45,7 +46,7 @@ export const fetchLatestUserSession = TryCatch(async (req, res, next) => {
     try {
         const latestUserSession = await userSession.findOne().sort({ timestamp: -1 });
         if (latestUserSession) {
-            const userID = latestUserSession.userID;
+            const userID = new ObjectId(latestUserSession.userID);
             const role = latestUserSession.role;
             // const { userID, role } = latestUserSession;
             res.status(200).json({ userID:userID, role:role });
