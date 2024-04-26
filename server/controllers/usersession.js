@@ -18,18 +18,35 @@ export const createUserSession = TryCatch(async (req, res, next) => {
     }
 });
 
-// delete user session entry.
-export const deleteUserSession = TryCatch(async (req, res, next) => {
+export const deleteUserSession = TryCatch(async (req, res) => {
     try {
-        console.log("here")
-        const { userID } = req.body;
-        console.log("this is ", req.body)
-        await userSession.deleteMany({ userID: userID });
-        res.status(200).json({ message: "User sessions deleted successfully" });
+      const { userID } = req.body;
+  
+      if (typeof userID !== 'string') {
+        return res.status(400).json({ error: 'Invalid userID format' });
+      }
+  
+      console.log('Deleting sessions for user:', userID);
+  
+      await userSession.deleteMany({ userID }); // Delete sessions matching userID
+      res.status(200).json({ message: 'User sessions deleted successfully' });
     } catch (error) {
-        res.status(500).json({ error: "Failed to delete user sessions" });
+      console.error('Error deleting user sessions:', error);
+      res.status(500).json({ error: 'Failed to delete user sessions' });
     }
-});
+  });
+
+// // delete user session entry.
+// export const deleteUserSession = TryCatch(async (req, res, next) => {
+//     try {
+//         console.log("here")
+//         const userID = req.params.userID;
+//         await userSession.deleteMany({ userID: userID });
+//         res.status(200).json({ message: "User sessions deleted successfully" });
+//     } catch (error) {
+//         res.status(500).json({ error: "Failed to delete user sessions" });
+//     }
+// });
 
 // fetch user entry with latest timestamp.
 export const fetchLatestUserSession = TryCatch(async (req, res, next) => {

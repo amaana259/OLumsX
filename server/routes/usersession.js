@@ -7,6 +7,7 @@ app.post('/createsession', createUserSession);
 
 // Route to delete an existing session.
 app.post('/deletesession', deleteUserSession);
+// app.get('/deletesession/:userID', deleteUserSession)
 
 // Route to fetch latest session details.
 app.get('/fetchsession', fetchLatestUserSession);
