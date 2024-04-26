@@ -10,8 +10,8 @@ export const placeAd = TryCatch(async (req, res, next) => {
         const { vendorID, imageUrl } = req.body;
 
         const ad = new Ad({
-            vendorID,
-            imageUrl,
+            vendorID: vendorID,
+            imageUrl: imageUrl,
         });
         console.log("what ", req.body)
 

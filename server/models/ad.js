@@ -8,7 +8,6 @@ vendorID: {
 },
 imageUrl: {
     type: String,
-    required: true,
 },
 });
 
