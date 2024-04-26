@@ -56,7 +56,7 @@ export const fetchWishlist = TryCatch(async (req, res, next) => {
       category: item.product_id.category,
       price: item.product_id.price,
       vendor: item.product_id.vendor,
-      vendorId: item.product_id.vendor_id,
+      imageUrls: item.product_id.imageUrls,
       description: item.product_id.description,
       wishlisted: true
     }));
@@ -70,7 +70,7 @@ export const fetchWishlist = TryCatch(async (req, res, next) => {
 });
 
 
-// Method to check if a customer has wishlisted a product
+// Method to check if a customer has wishlisted a product.
 export const checkWishlist = async (req, res) => {
   console.log(req.body)
   const { client_id, product_id } = req.body;
