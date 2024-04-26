@@ -13,6 +13,7 @@ export const placeAd = TryCatch(async (req, res, next) => {
             vendorID,
             imageUrl,
         });
+        console.log("what ", req.body)
 
         await ad.save();
 

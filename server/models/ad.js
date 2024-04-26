@@ -6,7 +6,7 @@ vendorId: {
     ref: 'User',
     required: true,
 },
-url: {
+imageUrl: {
     type: String,
     required: true,
 },
