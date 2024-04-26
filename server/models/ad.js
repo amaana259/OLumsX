@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const adSchema = new mongoose.Schema({
-vendorId: {
+vendorID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
