@@ -82,6 +82,13 @@ export const newUser = TryCatch(async (req, res, next) => {
     // console.log("here 79")
     await newUser.save();
 
+    const cart = new Cart ({
+      customerId: newUser._id,
+      tot_price: 0,
+    });
+
+    await cart.save ();
+
     res.status(201).json({ message: 'Signup successfull.' });
   } catch (err) {
     res.status(500).json({ error: 'Error during signup' });
