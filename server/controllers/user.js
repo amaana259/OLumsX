@@ -54,15 +54,15 @@ export const newUser = TryCatch(async (req, res, next) => {
       return res.status(400).json({ error: 'Email already in use' });
     }
 
-    const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    // const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     // console.log("here 53")
-    // console.log('Testing password:', password);
-    if (!passwordReg.test(password)) {
-      // console.log('Password failed validation');
-      return res.status(400).json({
-        error: 'Password must be at least 8 characters long, have at least one uppercase letter, one lowercase letter, one digit and one special character.',
-      });
-    }
+    // // console.log('Testing password:', password);
+    // if (!passwordReg.test(password)) {
+    //   // console.log('Password failed validation');
+    //   return res.status(400).json({
+    //     error: 'Password must be at least 8 characters long, have at least one uppercase letter, one lowercase letter, one digit and one special character.',
+    //   });
+    // }
     // console.log('Password passed validation');
     // console.log("here 55")
     const hashedPassword = await bcrypt.hash(password, 5);
@@ -250,3 +250,4 @@ export const getAllVendors = TryCatch(async (req, res, next) => {
     res.status(500).json({ error: "Failed to fetch vendors." });
   }
 });
+
