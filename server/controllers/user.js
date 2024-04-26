@@ -115,12 +115,12 @@ export const loginUser = TryCatch(async (req, res, next) => {
     };
 
     res.cookie('accessToken', token, cookieConfig);
-    
-    const userSession = new userSession({
+
+    const userSesh = new userSession({
       userID: user._id,
       role: user.user_type,
     });
-    await userSession.save();
+    await userSesh.save();
 
     res.status(202).json({
       message: 'Logged in successfully',
