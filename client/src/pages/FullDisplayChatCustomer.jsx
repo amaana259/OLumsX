@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import Navbar from "../components/Header/Navbar";
 
 export default function FullDisplayChatCustomer() {
-  const customer_id = localStorage.getItem('userID') || "661575274bf91a5b120aaf42"
+  const customer_id = localStorage.getItem('userId');
   const { vendorID } = useParams();
 
   const [vendorName, setvendorName] = useState('');

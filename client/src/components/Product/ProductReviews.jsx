@@ -38,12 +38,10 @@ const ProductReviews = React.forwardRef(({ reviews }, ref) => {
     };
 
     const [currentPage, setCurrentPage] = useState(1);
-    console.log(currentPage)
     const [currentReviews, setCurrentReviews] = useState(reviews.slice(
         (currentPage - 1) * ReviewsPerPage,
         currentPage * ReviewsPerPage
     ))
-    console.log(currentReviews);
     const totalPages = Math.ceil(reviews.length / ReviewsPerPage);
 
     const pageNumbers = [];
@@ -118,7 +116,7 @@ const ProductReviews = React.forwardRef(({ reviews }, ref) => {
 
                 {/* Pagination Buttons */}
                 {pageNumbers.map((number, index) => {
-                    if ((number !== 1 && number != totalPages) && (number === currentPage - 3 || number === currentPage + 3)) {
+                    if ((number !== 1 && number !== totalPages) && (number === currentPage - 3 || number === currentPage + 3)) {
                         // Put ellipsis if there's a gap
                         return <span key={number} className="px-3 py-1 mx-1">...</span>;
                     } else {

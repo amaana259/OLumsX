@@ -1,6 +1,5 @@
 import React, { useEffect, Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { Link, useParams } from 'react-router-dom';
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon } from '@heroicons/react/20/solid'
@@ -9,8 +8,29 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function WishlistGrid() {
-    const userID = "661575274bf91a5b120aaf42"
+const defaultImages = [
+    'https://olumsx.s3.eu-north-1.amazonaws.com/Apple%2BiPhone%2B15%2BPro%2BMax_-_24629.webp',
+    'https://olumsx.s3.eu-north-1.amazonaws.com/Apple%2BiPhone%2B15%2BPro%2BMax_-_24629.webp',
+    'https://olumsx.s3.eu-north-1.amazonaws.com/Apple%2BiPhone%2B15%2BPro%2BMax_-_24629.webp',
+    'https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg',
+];
+
+const categoryNames = [
+    'Mobile Phones',
+    'Laptops and Computers',
+    'Tech Accessories',
+    'Fashion',
+    'Home and Decor',
+    'Beauty and Health',
+    'Books',
+    'Toys and Games',
+    'Sports and Outdoors',
+    'Food and Grocery'
+];
+
+export default function ProductGrid(props) {
+    const userID = localStorage.getItem("userId") || "6617bc2ecf757dfbbdaed2f8"
+    const category = props.category || "";
 
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
@@ -96,7 +116,7 @@ export default function WishlistGrid() {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ client_id: userID })
+                    body: JSON.stringify({ clientID: userID })
                 });
 
                 if (!response.ok) {
@@ -110,8 +130,9 @@ export default function WishlistGrid() {
                 console.error('Failed to fetch products:', error);
             }
         };
-
+        setFilter(category);
         fetchProducts();
+        setFilter(category);
     }, []); // Empty dependency array ensures this runs once on mount
 
 
@@ -158,30 +179,18 @@ export default function WishlistGrid() {
 
                                     {/* Filters */}
                                     <div className="mt-4 border-t border-gray-200">
-
-                                        {/* Subcategories */}
-                                        {/* <h3 className="sr-only">Categories</h3>
-                                        <ul role="list" className="px-2 py-3 font-medium text-gray-900">
-                                            {subCategories.map((category) => (
-                                                <li key={category.name}>
-                                                    <a href={category.href} className="block px-2 py-3">
-                                                        {category.name}
-                                                    </a>
-                                                </li>
-                                            ))}
-                                        </ul> */}
-
                                         {/* Categories Filter */}
                                         <div className="border-t border-gray-200 px-4 py-6">
                                             <label className="font-semibold text-gray-900 mb-2" htmlFor="category">Category</label>
                                             <select id="category" name="category" className="form-select mt-1 w-full text-sm" value={filter} onChange={handleFilterChange}>
                                                 <option value="">All Categories</option>
-                                                <option value="Electronics">Electronics</option>
-                                                <option value="Clothing">Clothing</option>
-                                                <option value="Accessories">Accessories</option>
+                                                {categoryNames.map(name => (
+                                                    <option key={name} value={name}>
+                                                        {name}
+                                                    </option>
+                                                ))}
                                             </select>
                                         </div>
-
                                         {/* Price Range Filter */}
                                         <div className="border-t border-gray-200 px-4 py-6">
                                             <label className="font-semibold text-gray-900 mb-2">Price Range</label>
@@ -224,7 +233,7 @@ export default function WishlistGrid() {
 
                 <div className="pt-6 pb-10">
                     <div className="flex justify-between border-b border-gray-200">
-                        <h1 className="text-xl md:text-4xl font-bold tracking-tight text-gray-900 py-3 md:py-6">Products List</h1>
+                        <h1 className="text-xl md:text-4xl font-bold tracking-tight text-gray-900 py-3 md:py-6">Wishlist</h1>
 
                         {/* Sorting */}
                         <div className="flex items-center">
@@ -292,12 +301,20 @@ export default function WishlistGrid() {
 
                         {/* Categories Filter */}
                         <div className="border-b border-gray-200 pb-6">
-                            <label className="font-semibold text-gray-900 mb-2" htmlFor="category">Category</label>
-                            <select id="category" name="category" className="form-select mt-1 w-full text-sm" value={filter} onChange={handleFilterChange}>
+                            <label for="category" className="block mb-2 text-sm font-medium text-gray-900">Category</label>
+                            <select
+                                id="category"
+                                name="category"
+                                className="form-select mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm"
+                                value={filter}
+                                onChange={handleFilterChange}
+                            >
                                 <option value="">All Categories</option>
-                                <option value="Electronics">Electronics</option>
-                                <option value="Clothing">Clothing</option>
-                                <option value="Accessories">Accessories</option>
+                                {categoryNames.map(name => (
+                                    <option key={name} value={name}>
+                                        {name}
+                                    </option>
+                                ))}
                             </select>
                         </div>
 
@@ -338,11 +355,15 @@ export default function WishlistGrid() {
                     {/* Product grid */}
                     <div className="lg:ml-12 w-full grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
                         {filteredProducts.map((product) => (
-                            <Link to={`/product/${product._id}`}>
-                                <div key={product._id} className="group relative">
+                            <Link to={`/product/${product.productId}`} key={product.productId}>
+                                <div className="group relative">
                                     {/* Product Image */}
                                     <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 h-40 lg:h-80">
-                                        <img src="..\assets\gray_bg.png" alt="Product" className="h-full w-full object-cover object-center lg:h-full lg:w-full" />
+                                        <img
+                                            src={product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls[0] : defaultImages[Math.floor(Math.random() * defaultImages.length)]}
+                                            alt="Product"
+                                            className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                                        />
                                     </div>
 
                                     {/* Product Details */}

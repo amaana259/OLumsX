@@ -4,7 +4,7 @@ import Navbar from '../components/Header/Navbar';
 
 const Cart = () => {
     const navigator = useNavigate();
-    const user_id = "661575274bf91a5b120aaf42";
+    const user_id = localStorage.getItem("userId");
     const [products, setProducts] = useState([]);
     const [tot_price, setTotalPrice] = useState(0);
 

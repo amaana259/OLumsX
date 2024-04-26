@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AddReview from '../components/Product/AddReviews';
 
 const CustomerOrderHistory = () => {
-  const user_id = localStorage.getItem("userID") || "661575274bf91a5b120aaf42";
+  const user_id = localStorage.getItem("userId");
 
   const [allOrders, setAllOrders] = useState([]);
   const [visibleOrderDetailsId, setVisibleOrderDetailsId] = useState(null);

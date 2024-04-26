@@ -3,7 +3,7 @@ import Navbar from "../components/Header/Navbar";
 import ChatAppCustomer from "../components/Chat/DisplayChatCustomer";
 
 export default function ChatCustomer() {
-  const customer_id = localStorage.getItem('userID') || "6617bc2ecf757dfbbdaed2f8";
+  const customer_id = localStorage.getItem('userId');
 
   const [selectedChat, setSelectedChat] = useState(null);
   const [chats, setChats] = useState([]);
@@ -47,6 +47,9 @@ export default function ChatCustomer() {
     <>
       <div className="shadow-lg">
         <Navbar />
+
+        <div className='pt-9'></div>
+
 
         <div className="flex flex-row bg-white h-screen pt-12">
           {/* <!-- Vendor Chat List --> */}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 export default function DisplayChatCustomer(props) {
-  const customer_id = localStorage.getItem('userID') || "661575274bf91a5b120aaf42"
+  const customer_id = localStorage.getItem('userId') || "661575274bf91a5b120aaf42"
   const vendor_id = props.vendorID;
 
   const [messages, setMessages] = useState([]);
