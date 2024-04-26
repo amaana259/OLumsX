@@ -19,7 +19,7 @@ const reviewSchema = new mongoose.Schema ({
     type: String,
     required: [true, 'review text is required.'],
   },
-});
+},{ timestamps: true });
 
 const Reviews = new mongoose.model ('Reviews', reviewSchema);
 

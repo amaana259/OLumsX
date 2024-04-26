@@ -68,3 +68,21 @@ export const fetchWishlist = TryCatch(async (req, res, next) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+
+// Method to check if a customer has wishlisted a product
+export const checkWishlist = async (req, res) => {
+  console.log(req.body)
+  const { client_id, product_id } = req.body;
+
+  try {
+      const result = await Wishlist.findOne({ client_id: client_id, product_id: product_id });
+      if (result) {
+          res.status(200).json({ isWishlisted: true });
+      } else {
+          res.status(200).json({ isWishlisted: false });
+      }
+  } catch (error) {
+      res.status(500).json({ message: 'Server error', error });
+  }
+};

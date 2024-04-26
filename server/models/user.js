@@ -42,7 +42,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-});
+}, { timestamps: true });
 
 
 // Userschema.methods.generateAuthToken = function () {
@@ -50,6 +50,6 @@ const UserSchema = new mongoose.Schema({
 //     return token;
 // };
 
-export const User = mongoose.model("User",UserSchema);
+export const User = mongoose.model("User", UserSchema);
 
 export default User;

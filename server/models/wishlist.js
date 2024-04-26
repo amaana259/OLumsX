@@ -1,6 +1,4 @@
 import mongoose from 'mongoose';
-import validator from 'validator';
-import jwt from 'jsonwebtoken';
 
 const WishlistSchema = new mongoose.Schema({
     client_id: {
