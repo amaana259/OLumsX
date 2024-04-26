@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { TryCatch } from "../middlewares/error.js";
 import bcrypt from 'bcrypt';
+import User from '../models/user.js';
 import userSession from '../models/usersession.js';
 import { ObjectId } from 'mongodb';
 
@@ -48,8 +49,13 @@ export const fetchLatestUserSession = TryCatch(async (req, res, next) => {
         if (latestUserSession) {
             const userID = new ObjectId(latestUserSession.userID);
             const role = latestUserSession.role;
-            // const { userID, role } = latestUserSession;
-            res.status(200).json({ userID:userID, role:role });
+            const user = await User.findOne({ _id: userID });
+            if (user) {
+                const userId = user._id;
+                res.status(200).json({ userID: userId, role: role });
+            } else {
+                res.status(404).json({ error: "No user found" });
+            }
         } else {
             res.status(404).json({ error: "No user session found" });
         }
