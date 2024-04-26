@@ -16,12 +16,6 @@ import { errorMiddleware } from "./middlewares/error.js";
 
 import AWS from 'aws-sdk';
 
-AWS.config.update({
-  accessKeyId: AKIAZI2LDKCH3C7UOX7W,
-  secretAccessKey: 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,
-  region: 'Europe (Stockholm) eu-north-1',
-});
-
 import multer from 'multer';
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -29,11 +23,16 @@ const upload = multer({ storage });
 const S3 = new AWS.S3();
 const bucketName = 'olumsx';
 
-
-
-
-
 dotenv.config();
+
+const awsAccessKeyId = process.env.AWS_ACCESS_KEY_ID;
+const awsSecretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+
+AWS.config.update({
+  accessKeyId: awsAccessKeyId,
+  secretAccessKey: awsSecretAccessKey,
+  region: 'Europe (Stockholm) eu-north-1',
+});
 
 const app = express()
 app.use(cors(
