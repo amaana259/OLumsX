@@ -14,6 +14,25 @@ import reviewRoute from './routes/reviews.js'
 import { connectDB } from "./utils/features.js";
 import { errorMiddleware } from "./middlewares/error.js";
 
+import AWS from 'aws-sdk';
+
+AWS.config.update({
+  accessKeyId: AKIAZI2LDKCH3C7UOX7W,
+  secretAccessKey: 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,
+  region: 'Europe (Stockholm) eu-north-1',
+});
+
+import multer from 'multer';
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
+const S3 = new AWS.S3();
+const bucketName = 'olumsx';
+
+
+
+
+
 dotenv.config();
 
 const app = express()
@@ -77,3 +96,26 @@ app.get("/", (req, res) => {
     res.status(500).json({ error: "Failed to create order." });
   }
 })
+
+app.post('/uploadproductimages', upload.array('productImages', 4), (req, res) => {
+  const files = req.files;
+  const uploadPromises = files.map((file, index) => {
+    const uniqueKey = `${Date.now()}-${index}-${file.originalname}`;
+    const params = {
+      Bucket: bucketName,
+      Key: uniqueKey,
+      Body: file.buffer,
+      ContentType: file.mimetype,
+      ACL: 'public-read',
+    };
+
+    return S3.upload(params).promise();
+  });
+
+  Promise.all(uploadPromises)
+    .then(results => {
+      const imageUrls = results.map(r => r.Location);
+      res.json({ imageUrls });
+    })
+    .catch(error => res.status(500).send(error.message));
+});

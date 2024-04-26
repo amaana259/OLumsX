@@ -1,5 +1,5 @@
 import express from "express";
-import { newUser, loginUser , updateUser, deleteUser, getUserDetails} from "../controllers/user.js";
+import { newUser, loginUser , updateUser, deleteUser, getUserDetails, getAllCustomers, getAllVendors} from "../controllers/user.js";
 import { authenticate } from "../middlewares/authenticate.js";
 const app = express.Router();
 
@@ -17,6 +17,12 @@ app.delete('/deleteuser', deleteUser);
 
 // Finding user details by ID
 app.post('/getuserbyid', getUserDetails);
+
+// Finding all customer details.
+app.get('/getcustomers', getAllCustomers);
+
+// Finding all vendor details.
+app.get('/getvendors', getAllVendors);
 
 // Check Auth status
 app.get('/me', authenticate, (req, res) => {

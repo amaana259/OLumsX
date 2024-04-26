@@ -19,8 +19,11 @@ const orderSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
-},
-  { timestamps: true });
+  timestamp: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
 export const Order = new mongoose.model('Order', orderSchema);
 

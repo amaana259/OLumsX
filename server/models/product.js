@@ -27,6 +27,7 @@ const prodSchema = new mongoose.Schema ({
     type: Boolean,
     default: false,
   },
+  imageUrls: [String]
 }, { timestamps: true });
 
 const Product = new mongoose.model ('Product', prodSchema);

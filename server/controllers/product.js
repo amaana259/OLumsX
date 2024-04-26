@@ -6,80 +6,159 @@ import Wishlist from '../models/wishlist.js'
 import Cart from '../models/cart.js'
 import Reviews from "../models/reviews.js";
 
+// // Method to fetch all current products.
+// export const fetchProducts = TryCatch(async (req, res, next) => {
+//   try {
+//       console.log("recevied here")
+//       const { client_id } = req.body;                         // now need to send clientID.
+//       const products = await Product.find();
+//       const wishlistEntries = await Wishlist.find({ client_id });
+
+//       const wishlistProductIds = new Set(wishlistEntries.map(entry => entry.product_id.toString()));
+
+//       const productsWithWishlist = products.map(product => ({
+//           ...product.toObject(),
+//           wishlisted: wishlistProductIds.has(product._id.toString())
+//       }));
+
+//       res.status(200).json(productsWithWishlist);
+//   } catch (error) {
+//       res.status(500).json({ error: "Failed to fetch products." });
+//   }
+// });
+
+// // Method to add a product to the database.
+// export const addProduct = TryCatch(async(req,res,next)=>{
+//     try {
+//       const { name, category, price, vendor, description } = req.body;
+    
+//       const product = new Product({                    // Creates a new product with input data.
+//         name,
+//         category,
+//         price,
+//         vendor,
+//         description,
+//       });
+//       console.log("Product: ", product)
+//        await product.save();
+    
+//       res.status(201).json({ message: "Product added successfully." });
+//     } catch (error) {
+//       res.status(500).json({ error: "Failed to add product." });
+//     }
+// })
+
 // Method to fetch all current products.
-export const fetchProducts = TryCatch(async (req, res, next) => {
+export const fetchProducts = TryCatch(async (req, res) => {
   try {
-      console.log("recevied here")
-      const { client_id } = req.body;                         // now need to send clientID.
-      const products = await Product.find();
-      const wishlistEntries = await Wishlist.find({ client_id });
+    console.log("Received fetch request");
+    const { client_id } = req.body;
 
-      const wishlistProductIds = new Set(wishlistEntries.map(entry => entry.product_id.toString()));
+    if (!client_id) {
+      return res.status(400).json({ error: "client_id is required." });
+    }
 
-      const productsWithWishlist = products.map(product => ({
-          ...product.toObject(),
-          wishlisted: wishlistProductIds.has(product._id.toString())
-      }));
+    const products = await Product.find();
+    const wishlistEntries = await Wishlist.find({ client_id });
 
-      res.status(200).json(productsWithWishlist);
+    const wishlistProductIds = new Set(wishlistEntries.map(entry => entry.product_id.toString()));
+
+    const productsWithWishlist = products.map(product => ({
+      ...product.toObject(),
+      wishlisted: wishlistProductIds.has(product._id.toString()),
+    }));
+
+    res.status(200).json(productsWithWishlist);
   } catch (error) {
-      res.status(500).json({ error: "Failed to fetch products." });
+    console.error("Error fetching products:", error);
+    res.status(500).json({ error: "Failed to fetch products." });
   }
 });
 
 // Method to add a product to the database.
-export const addProduct = TryCatch(async(req,res,next)=>{
-    try {
-      const { name, category, price, vendor, description } = req.body;
+export const addProduct = TryCatch(async (req, res) => {
+  const { name, category, price, vendor, description, imageUrls } = req.body;
+
+  const product = new Product({
+    name,
+    category,
+    price,
+    vendor,
+    description,
+    imageUrls,
+  });
+
+  await product.save();
+
+  res.status(201).json({ message: 'Product added successfully.', product });
+});
+
+// // Method to update a product currently in the database.
+// export const updateProduct =  TryCatch(async (req, res,next) => {
+//   try {
+//     const { _id, name, category, price, vendor, description } = req.body;
+
+//     const product = await Product.findById(_id);                          // Checks if the product exists in the database.
+
+//     if (!product) {                                                            
+//       return res.status(404).json({ error: "Product does not exist." });
+//     }
     
-      const product = new Product({                    // Creates a new product with input data.
-        name,
-        category,
-        price,
-        vendor,
-        description,
-      });
-      console.log("Product: ", product)
-       await product.save();
-    
-      res.status(201).json({ message: "Product added successfully." });
-    } catch (error) {
-      res.status(500).json({ error: "Failed to add product." });
-    }
-})
+//     product.name = name;
+//     product.category = category;
+//     product.price = price;
+//     product.vendor = vendor;
+//     product.description = description;
+
+//     await product.save();                                                // Saves updated details of product into the database.
+
+//     res.status(200).json({ message: "Product updated successfully." });
+//   } catch (error) {
+//     res.status(500).json({ error: "Failed to update product details." });
+//   }
+// });
 
 // Method to update a product currently in the database.
-export const updateProduct =  TryCatch(async (req, res,next) => {
+export const updateProduct = TryCatch(async (req, res) => {
   try {
-    const { _id, name, category, price, vendor, description } = req.body;
+    const { _id, name, category, price, vendor, description, imageUrls } = req.body;
 
-    const product = await Product.findById(_id);                          // Checks if the product exists in the database.
+    if (!_id) {
+      return res.status(400).json({ error: "Product ID is required for updating." });
+    }
 
-    if (!product) {                                                            
+    const product = await Product.findById(_id);
+
+    if (!product) {
       return res.status(404).json({ error: "Product does not exist." });
     }
-    
-    product.name = name;
-    product.category = category;
-    product.price = price;
-    product.vendor = vendor;
-    product.description = description;
 
-    await product.save();                                                // Saves updated details of product into the database.
+    if (name) product.name = name;
+    if (category) product.category = category;
+    if (price) product.price = price;
+    if (vendor) product.vendor = vendor;
+    if (description) product.description = description;
+    // if (imageUrls) product.imageUrls = imageUrls;
+
+    await product.save();
 
     res.status(200).json({ message: "Product updated successfully." });
   } catch (error) {
-    res.status(500).json({ error: "Failed to update product details." });
+    console.error("Error updating product:", error);
+    res.status(500).json({ error: "Failed to update product." });
   }
 });
 
 // Method to delete a product that is in the database.
-export const deleteProduct =  TryCatch(async (req, res,next) => {
-
+export const deleteProduct = TryCatch(async (req, res) => {
   try {
-    const { productId } = req.body;
+    const { productId } = req.body; // Retrieve the product ID from request body
 
-    const product = await Product.findByIdAndDelete(productId);         // Checks if the product exists in the database.
+    if (!productId) {
+      return res.status(400).json({ error: "Product ID is required to delete a product." });
+    }
+
+    const product = await Product.findByIdAndDelete(productId); // Delete product by ID
 
     if (!product) {
       return res.status(404).json({ error: "Product does not exist." });
@@ -87,9 +166,28 @@ export const deleteProduct =  TryCatch(async (req, res,next) => {
 
     res.status(200).json({ message: "Product deleted successfully." });
   } catch (error) {
+    console.error("Error deleting product:", error);
     res.status(500).json({ error: "Failed to delete product." });
   }
-})
+});
+
+// // Method to delete a product that is in the database.
+// export const deleteProduct =  TryCatch(async (req, res,next) => {
+
+//   try {
+//     const { productId } = req.body;
+
+//     const product = await Product.findByIdAndDelete(productId);         // Checks if the product exists in the database.
+
+//     if (!product) {
+//       return res.status(404).json({ error: "Product does not exist." });
+//     }
+
+//     res.status(200).json({ message: "Product deleted successfully." });
+//   } catch (error) {
+//     res.status(500).json({ error: "Failed to delete product." });
+//   }
+// })
 
 export const recentProducts = TryCatch(async (req, res,next) => {
   try {
