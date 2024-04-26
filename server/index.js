@@ -17,6 +17,7 @@ import { errorMiddleware } from "./middlewares/error.js";
 import AWS from 'aws-sdk';
 
 import multer from 'multer';
+
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 

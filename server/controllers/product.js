@@ -75,6 +75,17 @@ export const fetchProducts = TryCatch(async (req, res) => {
   }
 });
 
+// fetch all products for admin.
+export const getAllProducts = TryCatch(async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.status(200).json(products);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({ error: "Failed to fetch products." });
+  }
+});
+
 // Method to add a product to the database.
 export const addProduct = TryCatch(async (req, res) => {
   const { name, category, price, vendor, description, imageUrls } = req.body;

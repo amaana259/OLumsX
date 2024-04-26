@@ -1,5 +1,5 @@
 import express from "express";
-import { addProduct, fetchProducts, updateProduct, deleteProduct, recentProducts, fetchProductById, productSearch } from "../controllers/product.js";
+import { addProduct, fetchProducts, updateProduct, deleteProduct, recentProducts, fetchProductById, productSearch, getAllProducts } from "../controllers/product.js";
 const app = express.Router();
 
 // Route to fetch all products.
@@ -22,5 +22,8 @@ app.delete("/deleteproduct",deleteProduct)
 
 // Route to search for products
 app.get('/search', productSearch);
+
+// Route to get all products for admin.
+app.get('/productsadmin', getAllProducts);
 
 export default app;
