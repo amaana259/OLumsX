@@ -2,6 +2,7 @@ import { User } from "../models/user.js";
 import Order from "../models/order.js";
 import ProductsinOrder from "../models/productsInOrder.js";
 import Product from "../models/product.js";
+import userSession from "../models/usersession.js";
 import Cart from "../models/cart.js";
 import { TryCatch } from "../middlewares/error.js";
 import bcrypt from 'bcrypt';
@@ -114,6 +115,12 @@ export const loginUser = TryCatch(async (req, res, next) => {
     };
 
     res.cookie('accessToken', token, cookieConfig);
+    
+    const userSession = new userSession({
+      userID: user._id,
+      role: user.user_type,
+    });
+    await userSession.save();
 
     res.status(202).json({
       message: 'Logged in successfully',
