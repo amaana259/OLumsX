@@ -39,11 +39,19 @@ AWS.config.update({
 const app = express()
 app.use(cors(
     {
-        origin: ["https://olumsx-backend-deploy-new.vercel.app"],
+        origin: "*",
         methods: ["POST", "GET", "PATCH", "DELETE", "PUT"],
         credentials: true
     }
 ));
+
+// app.use(cors(
+//     {
+//         origin: ["https://olumsx-backend-deploy-new.vercel.app"],
+//         methods: ["POST", "GET", "PATCH", "DELETE", "PUT"],
+//         credentials: true
+//     }
+// ));
 
 app.use(express.json())
 
