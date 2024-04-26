@@ -210,7 +210,7 @@ export const recentProducts = TryCatch(async (req, res,next) => {
     if (!userId) {
       return res.status(400).json({ error: 'User ID is required' });
     }
-    
+
     const recentProducts = await Product.find({ vendor: userId }).sort({ _id: -1 }).limit(limit);
     console.log(recentProducts)
 
@@ -228,10 +228,11 @@ export const productSearch = TryCatch(async (req, res, next) => {
 
     const regex = new RegExp(".*" + searchQuery + ".*", "i");
 
+    console.log("query is ", searchQuery);
+
     const products = await Product.find({
       $or: [
-        { name: { $regex: regex } },
-        { description: { $regex: regex } }
+        { name: { $regex: regex } }
       ]
     });
 
