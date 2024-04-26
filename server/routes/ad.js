@@ -12,6 +12,6 @@ app.post('/deletead', deleteAd);
 app.post('/fetchads', fetchVendorAds);
 
 // Route to fetch all ads placed.
-app.post('/fetchadsall', fetchAllAds);
+app.get('/fetchadsall', fetchAllAds);
 
 export default app;
