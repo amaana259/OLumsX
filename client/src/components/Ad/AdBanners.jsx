@@ -22,9 +22,9 @@ export default function AdBanner({ adCount }) {
     register();
 
     const ads = [
-        { src: 'https://via.placeholder.com/600x300?text=Ad+1', link: '#link1' },
-        { src: 'https://via.placeholder.com/600x300?text=Ad+2', link: '#link2' },
-        { src: 'https://via.placeholder.com/600x300?text=Ad+3', link: '#link3' },
+        { src: 'https://olumsx.s3.eu-north-1.amazonaws.com/ads-1', link: '#link1' },
+        { src: 'https://olumsx.s3.eu-north-1.amazonaws.com/ads-2', link: '#link2' },
+        { src: 'https://olumsx.s3.eu-north-1.amazonaws.com/ads-3', link: '#link3' },
     ];
 
     return (
