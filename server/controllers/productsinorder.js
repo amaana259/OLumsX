@@ -12,7 +12,7 @@ import Cart from '../models/cart.js';
 // group products by vendor.
 const groupProductsByVendor = (products) => {
   return products.reduce((groups, product) => {
-    const vendorID = product.vendor_id;
+    const vendorID = product.vendor;
     if (!groups[vendorID]) {
       groups[vendorID] = [];
     }
@@ -25,27 +25,17 @@ const groupProductsByVendor = (products) => {
 export const createOrdersWithVendors = TryCatch(async (req, res, next) => {
     try {
         const { customerId, products } = req.body;
-        // console.log (customerId);
-        // console.log (tot_price);
-        // console.log (products);
-    
+        console.log("here order ", req.body);
         const groupedProducts = groupProductsByVendor(products);
-        // console.log(groupedProducts)
-    
         const vendorKeys = Object.keys(groupedProducts);
-    
+        console.log("vendor keys ", vendorKeys)
         for (const vendorKey of vendorKeys) {
           const products = groupedProducts[vendorKey];
-            // console.log ("Vendor ID:", vendorKey);
-          //   console.log ('Products:', products);
-    
           let tot_price = 0;
     
           for (const product of products) {
             tot_price += product.price * product.quantity;
           }
-    
-          //   console.log(tot_price)
     
           const order = new Order({
             customer: customerId,
@@ -84,6 +74,7 @@ export const createOrdersWithVendors = TryCatch(async (req, res, next) => {
         res.status(200).json({ message: "Orders placed successfully." });
 
       } catch (error) {
+        console.log("this error ", error)
         res.status(500).json({ error: "Failed to check tests." });
       }
 });
@@ -106,7 +97,7 @@ export const fetchOrderDetails = TryCatch(async (req, res, next) => {
           category: p.product.category,
           price: p.product.price,
           vendor: p.product.vendor,
-          vendorId: p.product.vendor_id,
+          imageUrls: p.product.imageUrls,
           description: p.product.description,
           wishlisted: p.product.wishlisted,
           quantity: p.quantity

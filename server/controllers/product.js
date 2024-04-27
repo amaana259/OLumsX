@@ -90,6 +90,10 @@ export const getAllProducts = TryCatch(async (req, res) => {
 export const addProduct = TryCatch(async (req, res) => {
   const { name, category, price, vendor, description, imageUrls } = req.body;
 
+  if (price < 0) {
+    return res.status(400).json({ error: "Price cannot be negative." });
+  }
+  
   const product = new Product({
     name,
     category,
