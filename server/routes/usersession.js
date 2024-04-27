@@ -6,8 +6,8 @@ const app = express.Router();
 app.post('/createsession', createUserSession);
 
 // Route to delete an existing session.
-// app.post('/deletesession', deleteUserSession);
-app.get('/deletesession', deleteUserSession)
+app.post('/deletesession', deleteUserSession);
+// app.get('/deletesession', deleteUserSession)
 
 // Route to fetch latest session details.
 app.get('/fetchsession', fetchLatestUserSession);

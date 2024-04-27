@@ -20,10 +20,22 @@ export const createUserSession = TryCatch(async (req, res, next) => {
     }
 });
 
+// // delete user session entry.
+// export const deleteUserSession = TryCatch(async (req, res, next) => {
+//     try {
+//         await userSession.deleteMany({});
+//         res.status(200).json({ message: "User sessions deleted successfully" });
+//     } catch (error) {
+//         res.status(500).json({ error: "Failed to delete user sessions" });
+//     }
+// });
+
 // delete user session entry.
 export const deleteUserSession = TryCatch(async (req, res, next) => {
     try {
-        await userSession.deleteMany({});
+        console.log("here")
+        const { userID } = req.body;
+        await userSession.deleteMany({ userID: userID });
         res.status(200).json({ message: "User sessions deleted successfully" });
     } catch (error) {
         res.status(500).json({ error: "Failed to delete user sessions" });
