@@ -1,5 +1,6 @@
 import express from "express";
 import { addToCart, removeFromCart, productsinCart, clearCart } from "../controllers/productsincart.js";
+
 const app = express.Router();
 
 // Route to add an item to a cart.
