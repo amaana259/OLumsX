@@ -93,7 +93,7 @@ export const addProduct = TryCatch(async (req, res) => {
   if (price < 0) {
     return res.status(400).json({ error: "Price cannot be negative." });
   }
-  
+
   const product = new Product({
     name,
     category,
@@ -167,13 +167,13 @@ export const updateProduct = TryCatch(async (req, res) => {
 // Method to delete a product that is in the database.
 export const deleteProduct = TryCatch(async (req, res) => {
   try {
-    const { productId } = req.body; // Retrieve the product ID from request body
+    const { productId } = req.body;
 
     if (!productId) {
       return res.status(400).json({ error: "Product ID is required to delete a product." });
     }
 
-    const product = await Product.findByIdAndDelete(productId); // Delete product by ID
+    const product = await Product.findByIdAndDelete(productId);
 
     if (!product) {
       return res.status(404).json({ error: "Product does not exist." });
@@ -185,24 +185,6 @@ export const deleteProduct = TryCatch(async (req, res) => {
     res.status(500).json({ error: "Failed to delete product." });
   }
 });
-
-// // Method to delete a product that is in the database.
-// export const deleteProduct =  TryCatch(async (req, res,next) => {
-
-//   try {
-//     const { productId } = req.body;
-
-//     const product = await Product.findByIdAndDelete(productId);         // Checks if the product exists in the database.
-
-//     if (!product) {
-//       return res.status(404).json({ error: "Product does not exist." });
-//     }
-
-//     res.status(200).json({ message: "Product deleted successfully." });
-//   } catch (error) {
-//     res.status(500).json({ error: "Failed to delete product." });
-//   }
-// })
 
 export const recentProducts = TryCatch(async (req, res,next) => {
   try {
@@ -228,22 +210,21 @@ export const recentProducts = TryCatch(async (req, res,next) => {
 // Searchbar API
 export const productSearch = TryCatch(async (req, res, next) => {
   try {
-    const searchQuery = req.query.query; // Accessing the search query from the URL
+    const searchQuery = req.query.query;
 
     const regex = new RegExp(".*" + searchQuery + ".*", "i");
 
     console.log("query is ", searchQuery);
 
-    const products = await Product.find({
-      $or: [
-        { name: { $regex: regex } }
-      ]
-    });
+    const products = await Product.find({ name: regex });
 
-    if (products.length === 0) {
-      res.status(404).json({ error: "No products found." });
-    } else {
-      res.status(200).json(products);
+    if (products.length === 0) 
+    {
+        res.status(404).json({ error: "No products found." });
+    } 
+    else 
+    {
+        res.status(200).json(products);
     }
   } catch (error) {
     res.status(500).json({ error: "Failed to search products." });

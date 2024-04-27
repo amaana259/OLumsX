@@ -7,8 +7,6 @@ import Product from '../models/product.js';
 
 export const fetchMessages = TryCatch(async (req, res, next) => {
     const { clientID, vendorID } = req.body;
-    console.log("this is", clientID)
-    console.log("this is 2", vendorID)
     try {
         const messages = await ChatMessage.find({
             $or: [

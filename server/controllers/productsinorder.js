@@ -47,15 +47,12 @@ export const createOrdersWithVendors = TryCatch(async (req, res, next) => {
           await order.save();
     
           for (const product of products) {
-            // console.log (product);
     
             const productInOrder = new ProductsinOrder({
               order: order._id,
               product: product._id,
               quantity: product.quantity,
             });
-    
-            // console.log(productInOrder)
     
             await productInOrder.save();
           }

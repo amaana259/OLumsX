@@ -30,18 +30,6 @@ export const deleteUserSession = TryCatch(async (req, res, next) => {
     }
 });
 
-// // delete user session entry.
-// export const deleteUserSession = TryCatch(async (req, res, next) => {
-//     try {
-//         console.log("here")
-//         const userID = req.params.userID;
-//         await userSession.deleteMany({ userID: userID });
-//         res.status(200).json({ message: "User sessions deleted successfully" });
-//     } catch (error) {
-//         res.status(500).json({ error: "Failed to delete user sessions" });
-//     }
-// });
-
 // fetch user entry with latest timestamp.
 export const fetchLatestUserSession = TryCatch(async (req, res, next) => {
     try {

@@ -8,9 +8,8 @@ import { TryCatch } from "../middlewares/error.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-// Create a new user when signing up
+// create a new user when signing up.
 export const newUser = TryCatch(async (req, res, next) => {
-  // console.log("here")
   const {
     username,
     email,
@@ -23,7 +22,6 @@ export const newUser = TryCatch(async (req, res, next) => {
     DOB,
   } = req.body;
 
-  // console.log("Signing in")
   try {
     if (
       !username ||
@@ -38,36 +36,24 @@ export const newUser = TryCatch(async (req, res, next) => {
     ) {
       return res.status(400).json({ error: 'All fields required.' });
     }
-    // console.log(username, email, password, user_type, first_name, last_name, address, gender, DOB)
-    // Regex to check email format
+
     const emailReg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    // console.log("here 42")
     if (!emailReg.test(email)) {
-      // console.log("here 43")
-      return res.status(400).json({ error: 'Invalid Email address entered.' });
+      return res.status(400).json({ error: 'Invalid email address entered.' });
     }
-    // console.log("here 45")
-    // Check if user exists
     const existingUser = await User.findOne({ email });
-    // console.log("existingUser")
     if (existingUser) {
-      // console.log("existingUser2")
-      return res.status(400).json({ error: 'Email already in use' });
+      return res.status(400).json({ error: 'Email already in use.' });
     }
 
     const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    // console.log("here 53")
-    // console.log('Testing password:', password);
+
     if (!passwordReg.test(password)) {
-      // console.log('Password failed validation');
       return res.status(400).json({
         error: 'Password must be at least 8 characters long, have at least one uppercase letter, one lowercase letter, one digit and one special character.',
       });
     }
-    // console.log('Password passed validation');
-    // console.log("here 55")
     const hashedPassword = await bcrypt.hash(password, 5);
-    // console.log(hashedPassword)
     const newUser = new User({
       username,
       email,
@@ -79,7 +65,6 @@ export const newUser = TryCatch(async (req, res, next) => {
       gender,
       DOB,
     });
-    // console.log("here 79")
     await newUser.save();
 
     const cart = new Cart ({
@@ -95,6 +80,7 @@ export const newUser = TryCatch(async (req, res, next) => {
   }
 });
 
+// login a registered user.
 export const loginUser = TryCatch(async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -130,7 +116,7 @@ export const loginUser = TryCatch(async (req, res, next) => {
     await userSesh.save();
 
     res.status(202).json({
-      message: 'Logged in successfully',
+      message: 'Logged in successfully.',
       user_id: user._id,
       user_type: user.user_type
     });
@@ -154,15 +140,11 @@ export const updateUser = TryCatch(async (req, res, next) => {
           DOB,
         } = req.body;
     
-        // console.log("form is ", req.body);
-    
         const user = await User.findById (userID);
         user._id = userID;
         user.username = user.username;
         user.email = user.email;
     
-        // const hashedPassword = await bcrypt.hash (password, 5);
-        // user.password = hashedPassword;
         user.password = password;
     
         user.user_type = user.user_type;
