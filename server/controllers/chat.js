@@ -52,6 +52,8 @@ export const createMessage = TryCatch(async (req, res, next) => {
 export const customerChats = TryCatch(async (req, res, next) => {
     const { customerID } = req.body;
 
+    console.log("chat for ", customerID)
+
     const customer = await User.findOne({ _id: customerID, user_type: 'Customer' });
     if (!customer) 
     {
@@ -106,6 +108,8 @@ export const customerChats = TryCatch(async (req, res, next) => {
             }
         }
     ]);
+
+    console.log("chatare ", results);
 
     if (results.length === 0) {
         return res.status(404).json({ message: "No chats found for this customer." });
