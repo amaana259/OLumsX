@@ -207,27 +207,25 @@ export const recentProducts = TryCatch(async (req, res,next) => {
   }
 });
 
-// Searchbar API
 export const productSearch = TryCatch(async (req, res, next) => {
   try {
-    // const searchQuery = req.query.query;
     const { searchQuery } = req.body;
 
-    const regex = new RegExp(".*" + searchQuery + ".*", "i");
+    if (!searchQuery) {
+      return res.status(400).json({ error: "Search query is required." });
+    }
 
-    console.log("query is ", searchQuery);
+    const regex = new RegExp(searchQuery, "i");
 
     const products = await Product.find({ name: regex });
 
-    if (products.length === 0) 
-    {
-        res.status(404).json({ error: "No products found." });
-    } 
-    else 
-    {
-        res.status(200).json(products);
+    if (products.length === 0) {
+      return res.status(404).json({ error: "No products found." });
     }
+
+    res.status(200).json(products);
   } catch (error) {
+    console.error("Error during product search:", error);
     res.status(500).json({ error: "Failed to search products." });
   }
 });
