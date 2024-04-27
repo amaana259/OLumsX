@@ -21,7 +21,7 @@ app.put("/updateproduct",updateProduct)
 app.delete("/deleteproduct",deleteProduct)
 
 // Route to search for products
-app.get('/search', productSearch);
+app.post('/search', productSearch);
 
 // Route to get all products for admin.
 app.get('/productsadmin', getAllProducts);

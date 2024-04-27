@@ -210,7 +210,8 @@ export const recentProducts = TryCatch(async (req, res,next) => {
 // Searchbar API
 export const productSearch = TryCatch(async (req, res, next) => {
   try {
-    const searchQuery = req.query.query;
+    // const searchQuery = req.query.query;
+    const { searchQuery } = req.body;
 
     const regex = new RegExp(".*" + searchQuery + ".*", "i");
 
